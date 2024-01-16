@@ -129,9 +129,9 @@ public class Tele0pCommandBased extends CommandOpMode {
 
         drive.updatePoseEstimate();
 
-        telemetry.addData("x", drive.pose.position.x);
-        telemetry.addData("y", drive.pose.position.y);
-        telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
+        telemetry.addData("x", drive.getPoseEstimate().getX());
+        telemetry.addData("y", drive.getPoseEstimate().getY());
+        telemetry.addData("heading (deg)", Math.toDegrees(drive.getPoseEstimate().getHeading()));
         telemetry.update();
 
     }

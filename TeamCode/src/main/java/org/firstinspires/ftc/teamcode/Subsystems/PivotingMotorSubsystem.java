@@ -19,6 +19,9 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     public int getPivotingMotorPosition(){
         return PM.getCurrentPosition();
     }
+    public void setPivotingMotorTarget(int pos){
+        robot.PivotingMotor.setTargetPosition(pos);
+    }
     public void setPivotingPower(double power){
         PM.setPower(power);
     }
