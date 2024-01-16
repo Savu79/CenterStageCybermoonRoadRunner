@@ -86,6 +86,9 @@ public class TrajectorySequenceRunner {
         dashboard.setTelemetryTransmissionInterval(25);
     }
 
+    public TrajectorySequenceRunner(TrajectoryFollower follower, com.qualcomm.robotcore.hardware.PIDCoefficients headingPid, VoltageSensor batteryVoltageSensor, List<Integer> lastEncPositions, List<Integer> lastEncVels, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels) {
+    }
+
     public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {
         currentTrajectorySequence = trajectorySequence;
         currentSegmentStartTime = clock.seconds();
