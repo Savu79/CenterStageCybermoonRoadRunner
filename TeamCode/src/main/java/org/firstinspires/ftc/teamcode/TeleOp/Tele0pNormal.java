@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.geometry.Rotation2d;
+import com.arcrobotics.ftclib.geometry.Translation2d;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 @TeleOp
@@ -23,13 +24,13 @@ public class Tele0pNormal extends LinearOpMode {
 
     public DcMotorEx PivotingMotor;
     public DcMotorEx ExtentionMotor;
-    private MecanumDrive drive;
+    private SampleMecanumDrive drive;
     int extTarget=0;
     int pivTarget=RobotHardware.PivotMIN;
     boolean isClosed=false;
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        drive = new SampleMecanumDrive(hardwareMap);
         MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");
         MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");
 
@@ -102,19 +103,17 @@ public class Tele0pNormal extends LinearOpMode {
                 }
             }
 
-            drive.setDrivePowers(new PoseVelocity2d(
-                    new Vector2d(
+            drive.setWeightedDrivePower(
+                    new Pose2d(
                             gamepad1.left_stick_y,
-                            gamepad1.right_stick_x
-                    ),
-                    gamepad1.left_stick_x
-            ));
+                            gamepad1.right_stick_x,
+                            gamepad1.left_stick_x));
 
             drive.updatePoseEstimate();
 
-            telemetry.addData("x", drive.pose.position.x);
-            telemetry.addData("y", drive.pose.position.y);
-            telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
+            telemetry.addData("x", drive.getPoseEstimate().getX());
+            telemetry.addData("y", drive.getPoseEstimate().getY());
+            telemetry.addData("heading (deg)", Math.toDegrees(drive.getPoseEstimate().getHeading()));
             telemetry.addData("pivotMotor", PivotingMotor.getCurrentPosition());
             telemetry.addData("pivotMotorTarget", PivotingMotor.getTargetPosition());
             telemetry.addData("ExtentionMotor", ExtentionMotor.getCurrentPosition());

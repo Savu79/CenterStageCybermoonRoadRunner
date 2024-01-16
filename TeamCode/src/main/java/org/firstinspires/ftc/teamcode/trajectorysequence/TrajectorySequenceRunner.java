@@ -86,7 +86,13 @@ public class TrajectorySequenceRunner {
         dashboard.setTelemetryTransmissionInterval(25);
     }
 
-    public TrajectorySequenceRunner(TrajectoryFollower follower, com.qualcomm.robotcore.hardware.PIDCoefficients headingPid, VoltageSensor batteryVoltageSensor, List<Integer> lastEncPositions, List<Integer> lastEncVels, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels) {
+    public TrajectorySequenceRunner(TrajectoryFollower follower, com.qualcomm.robotcore.hardware.PIDCoefficients headingPid, VoltageSensor batteryVoltageSensor, List<Integer> lastEncPositions, List<Integer> lastEncVels, List<Integer> lastTrackingEncPositions, List<Integer> lastTrackingEncVels, TrajectoryFollower follower1, PIDFController turnController, NanoClock clock, FtcDashboard dashboard) {
+        //*NU STIU CE E ASTA
+        this.follower = follower1;
+        this.turnController = turnController;
+        this.clock = clock;
+        this.dashboard = dashboard;
+        //*FUEHWOUYGFOUYESGOUYFGESOUGESYGUFGUSEYGFOUYGESOUFGUOSEGOUFUSEYGGFUSE
     }
 
     public void followTrajectorySequenceAsync(TrajectorySequence trajectorySequence) {

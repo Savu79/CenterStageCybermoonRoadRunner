@@ -4,9 +4,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -18,10 +16,10 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoControlSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoMicroSubsystem;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 @TeleOp(name = "Tele0pCommandBased")
@@ -32,7 +30,7 @@ public class Tele0pCommandBased extends CommandOpMode {
     private ServoControlSubsystem servoControl;
     private PivotingMotorSubsystem pivotingMotorSubsystem;
     private ExtentionSubsystem extentionSubsystem;
-    private MecanumDrive drive;
+    private SampleMecanumDrive drive;
     GamepadEx gamepadEx1;
     GamepadEx gamepadEx2;
     int extTarget=0;
@@ -47,7 +45,7 @@ public class Tele0pCommandBased extends CommandOpMode {
 
         robot.init(hardwareMap, telemetry);
 
-        drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        drive = new SampleMecanumDrive(hardwareMap);
         servoMicro = new ServoMicroSubsystem(robot);
         servoControl = new ServoControlSubsystem(robot);
         pivotingMotorSubsystem = new PivotingMotorSubsystem(robot);
@@ -123,13 +121,11 @@ public class Tele0pCommandBased extends CommandOpMode {
         }
         robot.PivotingMotor.setTargetPosition(pivTarget);
 
-        drive.setDrivePowers(new PoseVelocity2d(
-                new Vector2d(
+        drive.setWeightedDrivePower(
+                new Pose2d(
                         gamepad1.left_stick_y,
-                        gamepad1.right_stick_x
-                ),
-                gamepad1.left_stick_x
-        ));
+                        gamepad1.right_stick_x,
+                        gamepad1.left_stick_x));
 
         drive.updatePoseEstimate();
 
