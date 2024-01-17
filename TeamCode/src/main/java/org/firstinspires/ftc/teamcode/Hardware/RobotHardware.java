@@ -81,7 +81,6 @@ public class RobotHardware {
         AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");
 
         PivotingMotor= hardwareMap.get(DcMotorEx.class, "PivotingMotor");
-        PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
         PivotingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ExtentionMotor= hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
