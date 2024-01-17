@@ -12,16 +12,19 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     private RobotHardware robot;
     private DcMotorEx PM;
     private PIDController controller;
-    private double power=0;
     private int target=0;
+
+    public static double P=0;
+    public static double I=0;
+    public static double D=0;
 
     public PivotingMotorSubsystem(RobotHardware robot){
         this.robot=robot;
         PM= robot.PivotingMotor;
-        controller= new PIDController(RobotHardware.Ppivot, RobotHardware.Ipivot, RobotHardware.Dpivot);
+        controller= new PIDController(P,I,D);
     }
     public void update(){
-        controller.setPID(RobotHardware.Ppivot, RobotHardware.Ipivot, RobotHardware.Dpivot);
+        controller.setPID(P,I,D);
         int error=target-getPivotingMotorPosition();
         PM.setPower(Range.clip(controller.calculate(0,error),-1,1));
     }
@@ -34,8 +37,5 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     public void setPivotingMotorTarget(int target){
         this.target=target;
     }
-    public void manualMovement(double power)
-    {
-        robot.PivotingMotor.setPower(power);
-    }
+
 }

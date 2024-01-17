@@ -1,36 +1,37 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
 
 public class ServoMicroSubsystem extends SubsystemBase {
     private RobotHardware robot;
+    private Servo MS1;
+    private Servo MS2;
     private boolean isClosed=false;
 
     public ServoMicroSubsystem(RobotHardware robot){
         this.robot=robot;
+        MS1= robot.MicroServo1;
+        MS2= robot.MicroServo2;
     }
     public void setMicroServo1(double pos){
-        robot.MicroServo1.setPosition(pos);
+        MS1.setPosition(pos);
     }
     public void setMicroServo2(double pos){
-        robot.MicroServo2.setPosition(pos);
+        MS2.setPosition(pos);
     }
-    //public void setMicroServo12(double pos1, double pos2){
-    //    robot.MicroServo1.setPosition(pos1);
-    //    robot.MicroServo2.setPosition(pos2);
-    //}
 
     public void setMicroServo12(){
         if(!isClosed) {
-            robot.MicroServo1.setPosition(robot.MicroServoINCHIS1);
-            robot.MicroServo2.setPosition(robot.MicroServoINCHIS2);
+            MS1.setPosition(RobotHardware.MicroServoINCHIS1);
+            MS2.setPosition(RobotHardware.MicroServoINCHIS2);
             isClosed=true;
         }
         else {
-            robot.MicroServo1.setPosition(robot.MicroServoDESCHIS1);
-            robot.MicroServo2.setPosition(robot.MicroServoDESCHIS2);
+            MS1.setPosition(RobotHardware.MicroServoDESCHIS1);
+            MS2.setPosition(RobotHardware.MicroServoDESCHIS2);
             isClosed=false;
         }
     }

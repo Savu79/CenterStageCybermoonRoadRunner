@@ -50,10 +50,6 @@ public class RobotHardware {
     public static int PivotMID=250;
     public static int PivotMIN=0;
 
-    public static double Ppivot=0;
-    public static double Ipivot=0;
-    public static double Dpivot=0;
-
     public static int ExtentionMAX=750;
     public static int ExtentionMIN=0;
 
@@ -73,7 +69,6 @@ public class RobotHardware {
         return instance;
     }
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
-        //this.hardwareMap=hardwareMap;
         //TODO declaram motoare
         MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");
         MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");
