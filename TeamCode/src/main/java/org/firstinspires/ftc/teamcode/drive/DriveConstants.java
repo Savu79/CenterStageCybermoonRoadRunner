@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 /*
@@ -96,6 +97,11 @@ public class DriveConstants {
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;
     }
+
+    public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
+    public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
+            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
     public static double rpmToVelocity(double rpm) {
         return rpm * GEAR_RATIO * 2 * Math.PI * WHEEL_RADIUS / 60.0;
