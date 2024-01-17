@@ -14,31 +14,29 @@ import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 public class TestBratRidicarePID extends LinearOpMode {
     private RobotHardware robot= RobotHardware.getInstance();
     private PivotingMotorSubsystem pivMotor;
-    int error=0;
     int target=0;
-    PIDController controller= new PIDController(RobotHardware.Ppivot, RobotHardware.Ipivot, RobotHardware.Dpivot);
     public void runOpMode(){
+
+        robot.init(hardwareMap, telemetry);
+
+        pivMotor= new PivotingMotorSubsystem(robot);
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         waitForStart();
-        if(opModeInInit()){
-            robot.init(hardwareMap, telemetry);
 
-            pivMotor= new PivotingMotorSubsystem(robot);
-
-            telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
-        }
         while(opModeIsActive()){
-            controller.setPID(RobotHardware.Ppivot, RobotHardware.Ipivot, RobotHardware.Dpivot);
 
             if(gamepad1.a) target=500;
             if(gamepad1.b) target=900;
             if(gamepad1.x) target=0;
 
-            error=target-pivMotor.getPivotingMotorPosition();
+            pivMotor.setPivotingMotorTarget(target);
+            pivMotor.update();
 
-            //*robot.PivotingMotor.setPower(Range.clip(controller.calculate(0, error), -1, 1));
-
-            pivMotor.setPivotingPower(Range.clip(controller.calculate(0, error), -1, 1));
+            telemetry.addData("pozitie curenta: ", pivMotor.getPivotingMotorPosition());
+            telemetry.addData("target: ", target);
+            telemetry.update();
 
         }
     }

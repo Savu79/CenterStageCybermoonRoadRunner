@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.TeleOp;
+/*package org.firstinspires.ftc.teamcode.TeleOp;
 
 
 import com.acmerobotics.dashboard.FtcDashboard;
@@ -89,7 +89,7 @@ public class Tele0pCommandBased extends CommandOpMode {
             @Override
             public void onError(int errorCode) {
             }
-        });*/
+        });
     }
 
     @Override
@@ -136,3 +136,4 @@ public class Tele0pCommandBased extends CommandOpMode {
 
     }
 }
+*/

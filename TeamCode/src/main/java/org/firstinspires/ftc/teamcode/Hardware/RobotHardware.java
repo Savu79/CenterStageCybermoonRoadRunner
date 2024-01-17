@@ -14,7 +14,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 @Config
 public class RobotHardware {
 
-    public static int pipelineStage = 0;
+    /*public static int pipelineStage = 0;
     public static double BLUR_RADIUS = 7;
     public static double HUE_MIN = 0;
     public static double HUE_MAX = 90;
@@ -23,7 +23,7 @@ public class RobotHardware {
     public static double VALUE_MIN = 150;
     public static double VALUE_MAX = 255;
     public static double MIN_CONTOUR_AREA = 2500;
-    public static String BLUR = "Box Blur";
+    public static String BLUR = "Box Blur";*/
     public Servo MicroServo1;
     public Servo MicroServo2;
     public Servo AngleControlServo;
