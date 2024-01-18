@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Robot;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDController;
@@ -7,16 +8,16 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
-
+@Config
 public class PivotingMotorSubsystem extends SubsystemBase {
     private RobotHardware robot;
     private DcMotorEx PM;
     private PIDController controller;
     private int target=0;
 
-    public static double P=0;
+    public static double P=0.004;
     public static double I=0;
-    public static double D=0;
+    public static double D=0.01;
 
     public PivotingMotorSubsystem(RobotHardware robot){
         this.robot=robot;

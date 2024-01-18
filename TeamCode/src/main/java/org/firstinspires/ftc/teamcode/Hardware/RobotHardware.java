@@ -50,7 +50,7 @@ public class RobotHardware {
     public static int PivotMID=250;
     public static int PivotMIN=0;
 
-    public static int ExtentionMAX=750;
+    public static int ExtentionMAX=900;
     public static int ExtentionMIN=0;
 
     public static double ServoControlMAX=0.48;
@@ -79,9 +79,7 @@ public class RobotHardware {
         PivotingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ExtentionMotor= hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
-        ExtentionMotor.setTargetPosition(RobotHardware.ExtentionMIN);
-        ExtentionMotor.setPower(1);
-        ExtentionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtentionMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 //        backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 //        pipeline = new SleeveDetection.SkystoneDeterminationPipeline();

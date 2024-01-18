@@ -9,18 +9,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 @Config
 @TeleOp(group ="test")
-public class TestBratRidicarePID extends LinearOpMode {
+public class TestBratExtinderePID extends LinearOpMode {
     private RobotHardware robot= RobotHardware.getInstance();
-    private PivotingMotorSubsystem pivMotor;
+    private ExtentionSubsystem extMotor;
     int target=0;
     public void runOpMode(){
 
         robot.init(hardwareMap, telemetry);
 
-        pivMotor= new PivotingMotorSubsystem(robot);
+        extMotor= new ExtentionSubsystem(robot);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -32,10 +33,10 @@ public class TestBratRidicarePID extends LinearOpMode {
             if(gamepad1.b) target=900;
             if(gamepad1.x) target=0;
 
-            pivMotor.setPivotingMotorTarget(target);
-            pivMotor.update();
+            extMotor.setExtentionTarget(target);
+            extMotor.update();
 
-            telemetry.addData("pozitie curenta: ", pivMotor.getPivotingMotorPosition());
+            telemetry.addData("pozitie curenta: ", extMotor.getExtentionPosition());
             telemetry.addData("target: ", target);
             telemetry.update();
 

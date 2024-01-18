@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
-
+@Config
 public class ServoMicroSubsystem extends SubsystemBase {
     private RobotHardware robot;
     private Servo MS1;

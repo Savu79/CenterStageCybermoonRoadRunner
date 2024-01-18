@@ -19,13 +19,12 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 @TeleOp(group ="tele0p")
-public class Tele0pNormal extends LinearOpMode {
+public class Tele0pPID extends LinearOpMode {
     public Servo MicroServo1;
     public Servo MicroServo2;
     public Servo AngleControlServo;
 
-    public DcMotorEx PivotingMotor;
-    public DcMotorEx ExtentionMotor;
+    private RobotHardware robot= RobotHardware.getInstance();
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
@@ -34,36 +33,25 @@ public class Tele0pNormal extends LinearOpMode {
     boolean isClosed=false;
     @Override
     public void runOpMode() throws InterruptedException {
+
+        robot.init(hardwareMap,telemetry);
         drive = new SampleMecanumDrive(hardwareMap);
-        MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");
-        MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");
-
-        AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");
-
-        PivotingMotor= hardwareMap.get(DcMotorEx.class, "PivotingMotor");
-        PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
-        PivotingMotor.setPower(1);
-        PivotingMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        ExtentionMotor= hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
-        ExtentionMotor.setTargetPosition(RobotHardware.ExtentionMIN);
-        ExtentionMotor.setPower(1);
-        ExtentionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-        MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+        extMotor= new ExtentionSubsystem(robot);
+        pivMotor = new PivotingMotorSubsystem(robot);
 
         AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            extTarget=ExtentionMotor.getCurrentPosition();
+            pivMotor.update();
+            extMotor.update();
+            extTarget=extMotor.getExtentionPosition();
             //* MUTARE SERVOCONTROL LA POZITIE MAXIMA DUPA PivotMID
-            if(PivotingMotor.getCurrentPosition()> 200)
+            if(pivMotor.getPivotingMotorPosition()> 200)
                 AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
-            if(PivotingMotor.getCurrentPosition()< 200)
+            if(pivMotor.getPivotingMotorPosition()< 200)
                 AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
             //* MUTARE EXTENTION DE LA JOYSTICK
@@ -71,13 +59,13 @@ public class Tele0pNormal extends LinearOpMode {
                 extTarget+=(int)(gamepad2.left_stick_y*40);
                 extTarget= Range.clip(extTarget, RobotHardware.ExtentionMIN, RobotHardware.ExtentionMAX);
             }
-            ExtentionMotor.setTargetPosition(extTarget);
+            extMotor.setExtentionTarget(extTarget);
 
             if(gamepad2.right_stick_y!=0) {
                 pivTarget+=(int)(gamepad2.right_stick_y*30);
                 pivTarget= Range.clip(pivTarget, RobotHardware.PivotMIN, RobotHardware.PivotMAX);
             }
-            PivotingMotor.setTargetPosition(pivTarget);
+            pivMotor.setPivotingMotorTarget(pivTarget);
 
             if(gamepad2.dpad_up)
             {
@@ -118,9 +106,9 @@ public class Tele0pNormal extends LinearOpMode {
             telemetry.addData("x", drive.getPoseEstimate().getX());
             telemetry.addData("y", drive.getPoseEstimate().getY());
             telemetry.addData("heading (deg)", Math.toDegrees(drive.getPoseEstimate().getHeading()));
-            telemetry.addData("pivotMotor", PivotingMotor.getCurrentPosition());
-            telemetry.addData("pivotMotorTarget", PivotingMotor.getTargetPosition());
-            telemetry.addData("ExtentionMotor", ExtentionMotor.getCurrentPosition());
+            telemetry.addData("pivotMotor", pivMotor.getPivotingMotorPosition());
+            telemetry.addData("pivotMotorTarget", pivMotor.getPivotingMotorPosition());
+            telemetry.addData("ExtentionMotor", extMotor.getExtentionPosition());
             telemetry.addData("AngControlServo", AngleControlServo.getPosition());
             telemetry.update();
         }
