@@ -109,9 +109,9 @@ public class Tele0pNormal extends LinearOpMode {
 
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            gamepad1.left_stick_y,
-                            gamepad1.right_stick_x,
-                            gamepad1.left_stick_x));
+                            Math.pow(gamepad1.left_stick_y, 3),
+                            Math.pow(gamepad1.right_stick_x,3),
+                            Math.pow(gamepad1.left_stick_x, 3)));
 
             drive.updatePoseEstimate();
 

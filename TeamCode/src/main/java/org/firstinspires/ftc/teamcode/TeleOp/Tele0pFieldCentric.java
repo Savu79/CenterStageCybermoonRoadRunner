@@ -109,7 +109,7 @@ public class Tele0pFieldCentric extends LinearOpMode {
 // Create a vector from the gamepad x/y inputs
 // Then, rotate that vector by the inverse of that heading
             com.acmerobotics.roadrunner.geometry.Vector2d input = new Vector2d(
-                    -gamepad1.left_stick_y,
+                    gamepad1.left_stick_y,
                     -gamepad1.left_stick_x
             ).rotated(-poseEstimate.getHeading());
 
