@@ -27,6 +27,7 @@ public class RobotHardware {
     public Servo MicroServo1;
     public Servo MicroServo2;
     public Servo AngleControlServo;
+    public Servo ServoAvion;
 
     public DcMotorEx PivotingMotor;
     public DcMotorEx ExtentionMotor;
@@ -46,7 +47,7 @@ public class RobotHardware {
     public static double MicroServoINCHIS1=0.50;
     public static double MicroServoINCHIS2=0.71;
 
-    public static int PivotMAX=1185;
+    public static int PivotMAX=1285;//1185
     public static int PivotMID=250;
     public static int PivotMIN=0;
 
@@ -55,7 +56,10 @@ public class RobotHardware {
 
     public static double ServoControlMAX=0.48;
     public static double ServoControlMID=0.2;
-    public static double ServoControlMIN=0;
+    public static double ServoControlMIN=0.0315;
+
+    public static double AvionParcat=1;
+    public static double AvionDecolare=0.75;
 
     //public static double ServoControlMAX=0.75;
     //public static double ServoControlMID=0.9;
@@ -70,10 +74,14 @@ public class RobotHardware {
     }
     public void init(HardwareMap hardwareMap, Telemetry telemetry) {
         //TODO declaram motoare
-        MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");
-        MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");
+        MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");//albastru
+        MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");//negru
 
-        AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");
+        AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");//albastru+negru
+
+        ServoAvion=hardwareMap.get(Servo.class, "AvionServo");
+        ServoAvion.setPosition(AvionParcat);
+
 
         PivotingMotor= hardwareMap.get(DcMotorEx.class, "PivotingMotor");
         PivotingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
