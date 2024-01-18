@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp
+@TeleOp(group ="test")
 public class TestServo extends LinearOpMode
 {
     Servo servo1; //dreptul

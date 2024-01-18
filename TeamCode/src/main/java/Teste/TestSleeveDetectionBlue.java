@@ -44,10 +44,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
  * the sample regions over the first 3 stones.
  */
 @TeleOp
-public class TestSleeveDetection extends LinearOpMode
+public class TestSleeveDetectionBlue extends LinearOpMode
 {
     OpenCvCamera backCamera;
-    SkystoneDeterminationPipeline pipeline;
+    SkystoneDeterminationPipelineBlue pipeline;
 
     @Override
     public void runOpMode()
@@ -55,7 +55,7 @@ public class TestSleeveDetection extends LinearOpMode
         telemetry= new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        pipeline = new SkystoneDeterminationPipeline();
+        pipeline = new SkystoneDeterminationPipelineBlue();
         backCamera.setPipeline(pipeline);
 
         backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -81,7 +81,7 @@ public class TestSleeveDetection extends LinearOpMode
         }
     }
 
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline
+    public static class SkystoneDeterminationPipelineBlue extends OpenCvPipeline
     {
         /*
          * An enum to define the skystone position

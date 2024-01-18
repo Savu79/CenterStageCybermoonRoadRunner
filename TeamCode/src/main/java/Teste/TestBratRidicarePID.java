@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 
-@TeleOp
+@TeleOp(group ="test")
 public class TestBratRidicarePID extends LinearOpMode {
     private RobotHardware robot= RobotHardware.getInstance();
     private PivotingMotorSubsystem pivMotor;

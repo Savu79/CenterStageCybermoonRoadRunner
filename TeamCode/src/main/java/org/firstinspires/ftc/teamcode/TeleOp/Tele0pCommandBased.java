@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoMicroSubsystem;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
-@TeleOp(name = "Tele0pCommandBased")
+@TeleOp(name = "Tele0pCommandBased", group ="tele0p")
 public class Tele0pCommandBased extends CommandOpMode {
     private ElapsedTime timer;
     private RobotHardware robot = RobotHardware.getInstance();
