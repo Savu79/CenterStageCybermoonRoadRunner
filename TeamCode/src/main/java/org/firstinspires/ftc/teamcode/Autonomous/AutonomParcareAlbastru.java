@@ -51,11 +51,11 @@ public class AutonomParcareAlbastru extends LinearOpMode {
 
             if (!parcat) {
                 //strafing spre stanga pentru parcare
-                rightFront.setPower(0.5);
-                rightBack.setPower(-0.5);
-                leftBack.setPower(0.5);
-                leftFront.setPower(-0.5);
-                sleep(2000);
+                rightFront.setPower(0.25);
+                rightBack.setPower(-0.25);
+                leftBack.setPower(0.25);
+                leftFront.setPower(-0.25);
+                sleep(4000);
                 rightFront.setPower(0);
                 rightBack.setPower(0);
                 leftBack.setPower(0);
