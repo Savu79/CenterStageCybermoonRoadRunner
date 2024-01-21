@@ -13,7 +13,7 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     private RobotHardware robot;
     private DcMotorEx PM;
     private PIDController controller;
-    private int target=0;
+    private int target=RobotHardware.PivotMID;
 
     public static double P=0.004;
     public static double I=0;

@@ -28,26 +28,26 @@ public class Tele0pPID extends LinearOpMode {
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
     int extTarget=0;
-    int pivTarget=RobotHardware.PivotMIN;
+    int pivTarget=RobotHardware.PivotMID+150;
     boolean isClosed=false;
     @Override
     public void runOpMode() throws InterruptedException {
 
         robot.init(hardwareMap,telemetry);
         drive = new SampleMecanumDrive(hardwareMap);
-        extMotor= new ExtentionSubsystem(robot);
+        //extMotor= new ExtentionSubsystem(robot);
         pivMotor = new PivotingMotorSubsystem(robot);
 
-        pivMotor.setPivotingMotorTarget(0);
-        extMotor.setExtentionTarget(0);
-        robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+        pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+        //extMotor.setExtentionTarget(0);
+        //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
         waitForStart();
 
         while (opModeIsActive()) {
             pivMotor.update();
-            extMotor.update();
-            extTarget=extMotor.getExtentionPosition();
+            //extMotor.update();
+            //extTarget=extMotor.getExtentionPosition();
             //* MUTARE SERVOCONTROL LA POZITIE MAXIMA DUPA PivotMID
             if(pivMotor.getPivotingMotorPosition()> 200)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
@@ -63,7 +63,8 @@ public class Tele0pPID extends LinearOpMode {
             if(gamepad2.a) extTarget=500;
             if(gamepad2.b) extTarget=900;
             if(gamepad2.x) extTarget=0;
-            extMotor.setExtentionTarget(extTarget);
+            //extMotor.setExtentionTarget(extTarget);
+            robot.ExtentionMotor.setTargetPosition(extTarget);
 
             //*MUTARE PIVOTING
             if(gamepad2.right_stick_y!=0) {
@@ -106,6 +107,7 @@ public class Tele0pPID extends LinearOpMode {
             {
                 robot.ServoAvion.setPosition(RobotHardware.AvionDecolare);
             }
+            //*DRIVE
             drive.setWeightedDrivePower(
                     new Pose2d(
                             gamepad1.left_stick_y,
@@ -119,7 +121,7 @@ public class Tele0pPID extends LinearOpMode {
             telemetry.addData("heading (deg)", Math.toDegrees(drive.getPoseEstimate().getHeading()));
             telemetry.addData("pivotMotor", pivMotor.getPivotingMotorPosition());
             telemetry.addData("pivotMotorTarget", pivMotor.getPivotingMotorPosition());
-            telemetry.addData("ExtentionMotor", extMotor.getExtentionPosition());
+            telemetry.addData("ExtentionMotor", robot.ExtentionMotor.getCurrentPosition());
             telemetry.addData("AngControlServo", robot.AngleControlServo.getPosition());
             telemetry.update();
         }

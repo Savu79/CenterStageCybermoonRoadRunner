@@ -76,8 +76,11 @@ public class RobotHardware {
         //TODO declaram motoare
         MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");//albastru
         MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");//negru
+        MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+        MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
 
         AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");//albastru+negru
+        AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
         ServoAvion=hardwareMap.get(Servo.class, "AvionServo");
         ServoAvion.setPosition(AvionParcat);
@@ -86,8 +89,11 @@ public class RobotHardware {
         PivotingMotor= hardwareMap.get(DcMotorEx.class, "PivotingMotor");
         PivotingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+
         ExtentionMotor= hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
-        ExtentionMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        ExtentionMotor.setPower(0.75);
+        ExtentionMotor.setTargetPosition(0);
+        ExtentionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 //        backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 //        pipeline = new SleeveDetection.SkystoneDeterminationPipeline();
