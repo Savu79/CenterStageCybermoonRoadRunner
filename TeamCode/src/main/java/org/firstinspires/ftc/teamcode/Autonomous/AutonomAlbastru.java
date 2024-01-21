@@ -101,59 +101,50 @@ public class AutonomAlbastru extends LinearOpMode {
         }
         switch (pipeline.getAnalysis()) {
             case LEFT:
-                //rotire spre stanga
+                //rotire stanga
                 rightFront.setPower(0.5);
                 rightBack.setPower(0.5);
                 leftBack.setPower(-0.5);
                 leftFront.setPower(-0.5);
-                sleep(500);
+
+                sleep(1000);
+
                 rightFront.setPower(0);
                 rightBack.setPower(0);
                 leftBack.setPower(0);
                 leftFront.setPower(0);
 
-                MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-
-                //rotire la directia initiala
-                rightFront.setPower(-0.5);
-                rightBack.setPower(-0.5);
-                leftBack.setPower(0.5);
-                leftFront.setPower(0.5);
-                sleep(500);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                leftBack.setPower(0);
-                leftFront.setPower(0);
                 break;
 
             case CENTER:
-                MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                rightFront.setPower(0.5);
+                rightBack.setPower(0.5);
+                leftBack.setPower(0.5);
+                leftFront.setPower(0.5);
+
+                sleep(1000);
+
+                rightFront.setPower(0);
+                rightBack.setPower(0);
+                leftBack.setPower(0);
+                leftFront.setPower(0);
+
                 break;
 
             case RIGHT:
-                //rotire spre dreapta
+                //rotire dreapta
                 rightFront.setPower(-0.5);
                 rightBack.setPower(-0.5);
                 leftBack.setPower(0.5);
                 leftFront.setPower(0.5);
-                sleep(500);
+
+                sleep(1000);
+
                 rightFront.setPower(0);
                 rightBack.setPower(0);
                 leftBack.setPower(0);
                 leftFront.setPower(0);
 
-                MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-
-                //rotire la directia initiala
-                rightFront.setPower(0.5);
-                rightBack.setPower(0.5);
-                leftBack.setPower(-0.5);
-                leftFront.setPower(-0.5);
-                sleep(500);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                leftBack.setPower(0);
-                leftFront.setPower(0);
                 break;
         }
     }
