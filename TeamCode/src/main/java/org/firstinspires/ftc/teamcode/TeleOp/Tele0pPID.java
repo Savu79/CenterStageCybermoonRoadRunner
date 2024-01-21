@@ -107,6 +107,10 @@ public class Tele0pPID extends LinearOpMode {
             {
                 robot.ServoAvion.setPosition(RobotHardware.AvionDecolare);
             }
+            if(gamepad1.dpad_up)
+            {
+                robot.ServoAvion.setPosition(RobotHardware.AvionParcat);
+            }
             //*DRIVE
             drive.setWeightedDrivePower(
                     new Pose2d(
