@@ -11,24 +11,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
-import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvPipeline;
 
-import Teste.TestSleeveDetectionBlue;
 import Teste.TestSleeveDetectionRed;
 
 @Autonomous
-public class AutonomRosu extends LinearOpMode {
+public class AutonomRosuFar extends LinearOpMode {
 
     private DcMotorEx leftFront;
     private DcMotorEx leftBack;
@@ -69,11 +59,11 @@ public class AutonomRosu extends LinearOpMode {
         leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
         rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");//albastru
-        MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");//negru
+        MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");//albastru, tine pixelul mov(pus pe foita)
+        MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");//negru, tine pixelul galben(pus pe tabla)
         MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
         MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
 
@@ -99,63 +89,68 @@ public class AutonomRosu extends LinearOpMode {
         {
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.update();
+            MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+            MicroServo1.setPosition(RobotHardware.MicroServoINCHIS2);
         }
-        switch (pipeline.getAnalysis()) {
-            case LEFT:
-                //rotire spre stanga
-                rightFront.setPower(0.5);
-                rightBack.setPower(0.5);
-                leftBack.setPower(-0.5);
-                leftFront.setPower(-0.5);
-                sleep(500);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                leftBack.setPower(0);
-                leftFront.setPower(0);
+        if(opModeIsActive()) {
+            switch (pipeline.getAnalysis()) {
+                case LEFT:
+                    //rotire spre stanga
+                    rightFront.setPower(0.5);
+                    rightBack.setPower(0.5);
+                    leftBack.setPower(-0.5);
+                    leftFront.setPower(-0.5);
+                    sleep(500);
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
 
-                MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
 
+                    //rotire la directia initiala
+                    rightFront.setPower(-0.5);
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);
+                    sleep(500);
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+                    break;
+
+                case CENTER:
+                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    break;
+
+                case RIGHT:
+                    //rotire spre dreapta
+                    rightFront.setPower(-0.5);
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);
+                    sleep(500);
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+
+                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    break;
+            }
                 //rotire la directia initiala
-                rightFront.setPower(-0.5);
-                rightBack.setPower(-0.5);
-                leftBack.setPower(0.5);
-                leftFront.setPower(0.5);
-                sleep(500);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                leftBack.setPower(0);
-                leftFront.setPower(0);
-                break;
+            rightFront.setPower(0.5);
+            rightBack.setPower(0.5);
+            leftBack.setPower(-0.5);
+            leftFront.setPower(-0.5);
 
-            case CENTER:
-                MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                break;
+            sleep(500);
 
-            case RIGHT:
-                //rotire spre dreapta
-                rightFront.setPower(-0.5);
-                rightBack.setPower(-0.5);
-                leftBack.setPower(0.5);
-                leftFront.setPower(0.5);
-                sleep(500);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                leftBack.setPower(0);
-                leftFront.setPower(0);
-
-                MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-
-                //rotire la directia initiala
-                rightFront.setPower(0.5);
-                rightBack.setPower(0.5);
-                leftBack.setPower(-0.5);
-                leftFront.setPower(-0.5);
-                sleep(500);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                leftBack.setPower(0);
-                leftFront.setPower(0);
-                break;
+            rightFront.setPower(0);
+            rightBack.setPower(0);
+            leftBack.setPower(0);
+            leftFront.setPower(0);
         }
     }
 }
