@@ -61,7 +61,7 @@ public class TestSleeveDetectionRed extends LinearOpMode
         backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                backCamera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+                backCamera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(backCamera, 10);
             }
 
