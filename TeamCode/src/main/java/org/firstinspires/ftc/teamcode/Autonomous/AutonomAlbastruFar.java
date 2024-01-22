@@ -116,13 +116,115 @@ public class AutonomAlbastruFar extends LinearOpMode {
                     leftBack.setPower(0.5);
                     leftFront.setPower(0.5);
 
-                    sleep(1000);
+                    sleep(100);
 
                     rightFront.setPower(0);
                     rightBack.setPower(0);
                     leftBack.setPower(0);
                     leftFront.setPower(0);
                     MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    //*incepem
+                    /*sleep(250);
+                    PivotingMotor.setTargetPosition(RobotHardware.PivotMID);
+                    rightFront.setPower(0.5);
+                    rightBack.setPower(0.5);
+                    leftBack.setPower(-0.5);
+                    leftFront.setPower(-0.5);
+
+                    sleep(1000);
+
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+
+                    sleep(250);
+
+
+                    rightFront.setPower(0.5);
+                    rightBack.setPower(0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);
+
+                    sleep(1000);
+
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+
+                    sleep(250);
+
+                    rightFront.setPower(-0.5);
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);//rotire dreapta
+
+                    sleep(1000);
+
+                    rightFront.setPower(0.5);
+                    rightBack.setPower(0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);
+
+                    sleep(1000);
+
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+
+                    sleep(250);
+
+                    rightFront.setPower(-0.5);
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);//rotire stanga, e cu spatele la tabla
+
+                    sleep(1000);
+
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+
+                    sleep(250);
+
+                    rightFront.setPower(-0.5);
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(-0.5);
+                    leftFront.setPower(-0.5);
+
+                    sleep(1000);
+
+                    PivotingMotor.setTargetPosition(RobotHardware.PivotMAX);
+                    sleep(250);
+                    MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                    sleep(250);
+                    PivotingMotor.setTargetPosition(RobotHardware.PivotMID);
+
+                    rightFront.setPower(0.5);//strafe left, langa tabla
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(-0.5);
+
+                    sleep(1000);
+
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+
+                    sleep(250);
+
+                    rightFront.setPower(-0.5);
+                    rightBack.setPower(-0.5);
+                    leftBack.setPower(-0.5);
+                    leftFront.setPower(-0.5);
+
+                    sleep(250);
+
+*/
 
                     break;
 

@@ -64,11 +64,11 @@ public class AutonomAlbastruNear extends LinearOpMode {
 
         MicroServo1 = hardwareMap.get(Servo.class, "MicroServo1");//albastru, tine pixelul mov(pus pe foita)
         MicroServo2 = hardwareMap.get(Servo.class, "MicroServo2");//negru, tine pixelul galben(pus pe tabla)
-        MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-        MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+        MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+        MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
 
         AngleControlServo = hardwareMap.get(Servo.class, "ControlServo");//albastru+negru
-        AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+        AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
         ServoAvion = hardwareMap.get(Servo.class, "AvionServo");
         ServoAvion.setPosition(RobotHardware.AvionParcat);
@@ -76,7 +76,7 @@ public class AutonomAlbastruNear extends LinearOpMode {
 
         PivotingMotor = hardwareMap.get(DcMotorEx.class, "PivotingMotor");
         PivotingMotor.setPower(0.75);
-        PivotingMotor.setTargetPosition(0);
+        PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
         PivotingMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
@@ -84,28 +84,17 @@ public class AutonomAlbastruNear extends LinearOpMode {
         ExtentionMotor.setPower(0.75);
         ExtentionMotor.setTargetPosition(0);
         ExtentionMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        sleep(500);
+        PivotingMotor.setTargetPosition(RobotHardware.PivotMID);
+        AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
         while (opModeInInit())
         {
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.update();
-            MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
-            MicroServo1.setPosition(RobotHardware.MicroServoINCHIS2);
 
         }
         if (opModeIsActive()) {
-            //merge in fata
-            rightFront.setPower(0.5);
-            rightBack.setPower(0.5);
-            leftBack.setPower(0.5);
-            leftFront.setPower(0.5);
-
-            sleep(1000);
-
-            rightFront.setPower(0);
-            rightBack.setPower(0);
-            leftBack.setPower(0);
-            leftFront.setPower(0);
             switch (pipeline.getAnalysis()) {
                 case LEFT:
                     //rotire stanga
@@ -125,8 +114,25 @@ public class AutonomAlbastruNear extends LinearOpMode {
                     break;
 
                 case CENTER:
-                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    rightFront.setPower(0.5);
+                    rightBack.setPower(0.5);
+                    leftBack.setPower(0.5);
+                    leftFront.setPower(0.5);
+                    PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
+                    AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
+                    sleep(800);
+
+                    rightFront.setPower(0);
+                    rightBack.setPower(0);
+                    leftBack.setPower(0);
+                    leftFront.setPower(0);
+                    sleep(100);
+                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    sleep(200);
+                    PivotingMotor.setTargetPosition(RobotHardware.PivotMID);
+                    AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                    sleep(1000);
                     break;
 
                 case RIGHT:
@@ -147,18 +153,6 @@ public class AutonomAlbastruNear extends LinearOpMode {
 
                     break;
             }
-
-            rightFront.setPower(0.5);
-            rightBack.setPower(0.5);
-            leftBack.setPower(-0.5);
-            leftFront.setPower(-0.5);
-
-            sleep(500);
-
-            rightFront.setPower(0);
-            rightBack.setPower(0);
-            leftBack.setPower(0);
-            leftFront.setPower(0);
         }
     }
 }
