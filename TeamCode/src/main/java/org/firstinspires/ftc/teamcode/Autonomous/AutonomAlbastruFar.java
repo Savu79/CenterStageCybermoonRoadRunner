@@ -92,6 +92,11 @@ public class AutonomAlbastruFar extends LinearOpMode {
             MicroServo1.setPosition(RobotHardware.MicroServoINCHIS2);
         }
         if (opModeIsActive()) {
+            while(opModeIsActive()){
+                telemetry.addData("pozitie perp: ",leftBack.getCurrentPosition());
+                telemetry.addData("pozitie paralel: ",rightBack.getCurrentPosition());
+                telemetry.update();
+            }
             switch (pipeline.getAnalysis()) {
                 case LEFT:
                     //rotire stanga
