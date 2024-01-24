@@ -8,9 +8,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -20,20 +24,18 @@ import Teste.TestSleeveDetectionBlue;
 @Autonomous
 public class AutonomAlbastruNear extends LinearOpMode {
 
-    private DcMotorEx leftFront;
-    private DcMotorEx leftBack;
-    private DcMotorEx rightFront;
-    private DcMotorEx rightBack;
-    private DcMotorEx PivotingMotor;
-    private DcMotorEx ExtentionMotor;
-
-    public Servo MicroServo1;
-    public Servo MicroServo2;
-    public Servo AngleControlServo;
-    public Servo ServoAvion;
-
+    private RobotHardware robot= RobotHardware.getInstance();
+    private SampleMecanumDrive drive;
+    private ExtentionSubsystem extMotor;
+    private PivotingMotorSubsystem pivMotor;
+    int extTarget=0;
+    int pivTarget=RobotHardware.PivotMID+150;
+    private static ElapsedTime timer1 = new ElapsedTime();
     OpenCvCamera backCamera;
     TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue pipeline;
+
+    int pozitiePahar = 0;
+
 
     @Override
     public void runOpMode() {
@@ -55,101 +57,55 @@ public class AutonomAlbastruNear extends LinearOpMode {
             public void onError(int errorCode) {
             }
         });
-        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-        leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-        rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
-        rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        MicroServo1 = hardwareMap.get(Servo.class, "MicroServo1");//albastru, tine pixelul mov(pus pe foita)
-        MicroServo2 = hardwareMap.get(Servo.class, "MicroServo2");//negru, tine pixelul galben(pus pe tabla)
-        MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
-        MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+        robot.init(hardwareMap,telemetry);
+        drive = new SampleMecanumDrive(hardwareMap);
+        //extMotor= new ExtentionSubsystem(robot);
+        pivMotor = new PivotingMotorSubsystem(robot);
 
-        AngleControlServo = hardwareMap.get(Servo.class, "ControlServo");//albastru+negru
-        AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-
-        ServoAvion = hardwareMap.get(Servo.class, "AvionServo");
-        ServoAvion.setPosition(RobotHardware.AvionParcat);
-
-
-        PivotingMotor = hardwareMap.get(DcMotorEx.class, "PivotingMotor");
-        PivotingMotor.setPower(0.75);
-        PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
-        PivotingMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-        ExtentionMotor = hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
-        ExtentionMotor.setPower(0.75);
-        ExtentionMotor.setTargetPosition(0);
-        ExtentionMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        sleep(500);
-        PivotingMotor.setTargetPosition(RobotHardware.PivotMID);
-        AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+        pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
 
         while (opModeInInit())
         {
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.update();
-
-        }
-        if (opModeIsActive()) {
+            timer1.reset();
+            timer1.startTime();
             switch (pipeline.getAnalysis()) {
                 case LEFT:
-                    //rotire stanga
-                    rightFront.setPower(0.5);
-                    rightBack.setPower(0.5);
-                    leftBack.setPower(-0.5);
-                    leftFront.setPower(-0.5);
-
-                    sleep(1000);
-
-                    rightFront.setPower(0);
-                    rightBack.setPower(0);
-                    leftBack.setPower(0);
-                    leftFront.setPower(0);
-                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-
+                    pozitiePahar = 1;
                     break;
-
                 case CENTER:
-                    rightFront.setPower(0.5);
-                    rightBack.setPower(0.5);
-                    leftBack.setPower(0.5);
-                    leftFront.setPower(0.5);
-                    PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
-                    AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-
-                    sleep(800);
-
-                    rightFront.setPower(0);
-                    rightBack.setPower(0);
-                    leftBack.setPower(0);
-                    leftFront.setPower(0);
-                    sleep(100);
-                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                    sleep(200);
-                    PivotingMotor.setTargetPosition(RobotHardware.PivotMID);
-                    AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
-                    sleep(1000);
+                    pozitiePahar = 2;
                     break;
 
                 case RIGHT:
-                    //rotire dreapta
-                    rightFront.setPower(-0.5);
-                    rightBack.setPower(-0.5);
-                    leftBack.setPower(0.5);
-                    leftFront.setPower(0.5);
+                    pozitiePahar = 3;
+                    break;
+            }
+        }
+        while (opModeIsActive()) {
+            pivMotor.update();
 
-                    sleep(1000);
+            switch (pozitiePahar) {
+                case 1:
+                    if (timer1.milliseconds() < 1000) {
+                        drive.setMotorPowers(0.5, 0.5, 0.5, 0.5);
+                    }
+                    else if (timer1.milliseconds() > 1000 && timer1.milliseconds() < 1050) {
+                        drive.setMotorPowers(0, 0, 0, 0);
+                    }
+                    else if (timer1.milliseconds() > 1050 && timer1.milliseconds() < 1300) {
+                        drive.setMotorPowers(-0.5, -0.5, 0.5, 0.5);
+                    }
 
-                    rightFront.setPower(0);
-                    rightBack.setPower(0);
-                    leftBack.setPower(0);
-                    leftFront.setPower(0);
+                    break;
 
-                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                case 2:
+
+                    break;
+
+                case 3:
 
                     break;
             }

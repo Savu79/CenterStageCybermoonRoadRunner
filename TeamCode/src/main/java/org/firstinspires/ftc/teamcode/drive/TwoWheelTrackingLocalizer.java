@@ -77,10 +77,10 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         return drive.getRawExternalHeading();
     }
 
-    /*@Override
+    @Override
     public Double getHeadingVelocity() {
         return drive.getExternalHeadingVelocity();
-    }*/
+    }
 
     @NonNull
     @Override
@@ -99,8 +99,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(parallelEncoder.getCorrectedVelocity()*Par_MULTIPLIER),
-                encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity()*Perp_MULTIPLIER)
+                encoderTicksToInches(parallelEncoder.getRawVelocity()*Par_MULTIPLIER),
+                encoderTicksToInches(perpendicularEncoder.getRawVelocity()*Perp_MULTIPLIER)
         );
     }
 }
