@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.checkerframework.checker.units.qual.Angle;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
@@ -16,8 +19,10 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
+import Teste.TestSleeveDetectionBlue;
 import Teste.TestSleeveDetectionRed;
 
+@Autonomous
 public class AutoSampleBlueNear extends LinearOpMode {
 
     private RobotHardware robot= RobotHardware.getInstance();
@@ -28,7 +33,7 @@ public class AutoSampleBlueNear extends LinearOpMode {
     int pivTarget=RobotHardware.PivotINIT;
     boolean isClosed=false;
     OpenCvCamera backCamera;
-    TestSleeveDetectionRed.SkystoneDeterminationPipelineRed pipeline;
+    TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue pipeline;
     public void runOpMode(){
         robot.init(hardwareMap,telemetry);
         drive = new SampleMecanumDrive(hardwareMap);
@@ -37,7 +42,7 @@ public class AutoSampleBlueNear extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        pipeline = new TestSleeveDetectionRed.SkystoneDeterminationPipelineRed();
+        pipeline = new TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue();
         backCamera.setPipeline(pipeline);
 
         backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -75,16 +80,34 @@ public class AutoSampleBlueNear extends LinearOpMode {
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(myPose)
-                                .lineToLinearHeading(new Pose2d(-38,11.5,Math.toRadians(90)))
-                                .waitSeconds(3)
-                                .addTemporalMarker(0.5,()->{//functioneaza dupa 0.5 secunde
+                                .lineToLinearHeading(new Pose2d(-38.175,9.125,Math.toRadians(90)))
+                                .waitSeconds(1)
+                                .addDisplacementMarker(()->{//functioneaza dupa 0.5 secunde
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                                 })
                                 .addDisplacementMarker(()->{//functioneaza duoa strafe(10)
                                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                                 })
+                                .waitSeconds(1)
+                                .addDisplacementMarker(() -> {
+                                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);//(new Pose2d(-43.75, 53.875, Math.toRadians()));
+                                })
                                 .build();
+        TrajectorySequence traj2L= drive.trajectorySequenceBuilder(new Pose2d(-38.175,9.125,Math.toRadians(90)))
+                .strafeRight(18.175)
+                .lineToLinearHeading(new Pose2d(-40.25, 55, Math.toRadians(-90)))
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                })
+                .addDisplacementMarker(() -> {
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                })
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .build();
         //? CENTER
         TrajectorySequence traj1C= drive.trajectorySequenceBuilder(myPose)
                                 .forward(25)
@@ -118,6 +141,7 @@ public class AutoSampleBlueNear extends LinearOpMode {
         switch(pipeline.getAnalysis()){
             case LEFT:
                 drive.followTrajectorySequenceAsync(traj1L);
+                drive.followTrajectorySequenceAsync(traj2L);
                 break;
             case RIGHT:
                 drive.followTrajectorySequenceAsync(traj1R);
