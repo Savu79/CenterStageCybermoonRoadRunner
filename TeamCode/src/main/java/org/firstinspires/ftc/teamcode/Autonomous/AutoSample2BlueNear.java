@@ -87,7 +87,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
         Pose2d myPose= new Pose2d(-61.2,11.5,0);
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
-        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(myPose)
+        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(new Pose2d(-38.175,9.125,Math.toRadians(90)))
                 .waitSeconds(1)
                 .addDisplacementMarker(()->{//functioneaza dupa 0.5 secunde
@@ -117,7 +117,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
                 })
                 .build();
         //? CENTER
-        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(myPose)
+        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .forward(25)
                 .waitSeconds(3)
                 .addTemporalMarker(0.5,()->{ //functioneaza dupa 0.5 secunde
@@ -130,7 +130,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
                 .build();
 
         //? RIGHT
-        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(myPose)
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .lineToLinearHeading(new Pose2d(-38,11.5,Math.toRadians(-90)))
                 .waitSeconds(3)
                 .addTemporalMarker(0.5,()->{//functioneaza dupa 0.5 secunde
