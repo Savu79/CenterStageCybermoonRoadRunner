@@ -1,34 +1,31 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
-import static org.firstinspires.ftc.teamcode.OpenCVCode.OpenCVCode.CenterStagePipeline.CenterStagePosition.LEFT;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import Teste.TestSleeveDetectionRed;
 
-public class AutoSample extends LinearOpMode {
+public class AutoSampleBlueNear extends LinearOpMode {
 
     private RobotHardware robot= RobotHardware.getInstance();
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
     int extTarget=0;
-    int pivTarget=RobotHardware.PivotMID+150;
+    int pivTarget=RobotHardware.PivotINIT;
     boolean isClosed=false;
     OpenCvCamera backCamera;
     TestSleeveDetectionRed.SkystoneDeterminationPipelineRed pipeline;
@@ -74,37 +71,45 @@ public class AutoSample extends LinearOpMode {
 
         //* Traiectorii RoadRunner
 
-        Pose2d myPose= new Pose2d(0,0,0);
+        Pose2d myPose= new Pose2d(-61.2,11.5,0);
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
-        Trajectory traj1L= drive.trajectoryBuilder(new Pose2d(0,0,Math.toRadians(0)))
-                                .strafeTo(new Vector2d(10, 10))
+        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(myPose)
+                                .lineToLinearHeading(new Pose2d(-38,11.5,Math.toRadians(90)))
+                                .waitSeconds(3)
                                 .addTemporalMarker(0.5,()->{//functioneaza dupa 0.5 secunde
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                                 })
                                 .addDisplacementMarker(()->{//functioneaza duoa strafe(10)
                                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                                 })
                                 .build();
         //? CENTER
-        Trajectory traj1C= drive.trajectoryBuilder(new Pose2d(0,0,Math.toRadians(0)))
-                                .forward(10)
+        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(myPose)
+                                .forward(25)
+                                .waitSeconds(3)
                                 .addTemporalMarker(0.5,()->{ //functioneaza dupa 0.5 secunde
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                                 })
                                 .addDisplacementMarker(()->{ //functioneaza duoa forward(10)
                                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                                 })
                                 .build();
+
         //? RIGHT
-        Trajectory traj1R= drive.trajectoryBuilder(new Pose2d(0,0,Math.toRadians(0)))
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(myPose)
+                                .lineToLinearHeading(new Pose2d(-38,11.5,Math.toRadians(-90)))
+                                .waitSeconds(3)
                                 .addTemporalMarker(0.5,()->{//functioneaza dupa 0.5 secunde
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                                 })
                                 .addDisplacementMarker(()->{//functioneaza duoa strafe(10)
                                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                                 })
-                                .strafeTo(new Vector2d(10, 10))
+
                                 .build();
 
 
@@ -112,13 +117,13 @@ public class AutoSample extends LinearOpMode {
 
         switch(pipeline.getAnalysis()){
             case LEFT:
-                drive.followTrajectoryAsync(traj1L);
+                drive.followTrajectorySequenceAsync(traj1L);
                 break;
             case RIGHT:
-                drive.followTrajectoryAsync(traj1R);
+                drive.followTrajectorySequenceAsync(traj1R);
                 break;
             case CENTER:
-                drive.followTrajectoryAsync(traj1C);
+                drive.followTrajectorySequenceAsync(traj1C);
                 break;
         }
 
