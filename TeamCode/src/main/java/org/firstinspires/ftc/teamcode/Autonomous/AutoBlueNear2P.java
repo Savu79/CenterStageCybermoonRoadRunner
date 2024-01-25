@@ -4,12 +4,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.Angle;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
@@ -20,14 +18,11 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import java.util.Stack;
-
 import Teste.TestSleeveDetectionBlue;
-import Teste.TestSleeveDetectionRed;
 
 @Autonomous
-public class AutoSample2BlueNear extends LinearOpMode {
-
+public class AutoBlueNear2P extends LinearOpMode {
+    //*1P de la un pixel
     private RobotHardware robot= RobotHardware.getInstance();
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
@@ -123,30 +118,72 @@ public class AutoSample2BlueNear extends LinearOpMode {
                 .build();
 
         //? CENTER
-        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .forward(25)
-                .waitSeconds(3)
-                .addTemporalMarker(0.5,()->{ //functioneaza dupa 0.5 secunde
+        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                .lineTo(new Vector2d(10, 34))
+                .addDisplacementMarker(()->{
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
-                .addDisplacementMarker(()->{ //functioneaza duoa forward(10)
+                .waitSeconds(1)
+                .addDisplacementMarker(()->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                })
+                .waitSeconds(0.5)
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);//(new Pose2d(-43.75, 53.875, Math.toRadians()));
                 })
                 .build();
 
+        TrajectorySequence traj2C= drive.trajectorySequenceBuilder(new Pose2d(10,34,Math.toRadians(360)))
+                .lineToLinearHeading(new Pose2d(47, 34, Math.toRadians(180)))
+                .waitSeconds(0.25)
+                .addDisplacementMarker(() -> {
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                })
+                .waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .strafeLeft(24)
+                .lineTo(new Vector2d(61, 10))
+                .build();
+
         //? RIGHT
-        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-38,11.5,Math.toRadians(-90)))
-                .waitSeconds(3)
-                .addTemporalMarker(0.5,()->{//functioneaza dupa 0.5 secunde
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(10,34,Math.toRadians(180)))
+                .addDisplacementMarker(()->{
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
-                .addDisplacementMarker(()->{//functioneaza duoa strafe(10)
+                .waitSeconds(1)
+                .addDisplacementMarker(()->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                 })
+                .waitSeconds(0.5)
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);//(new Pose2d(-43.75, 53.875, Math.toRadians()));
+                })
+                .build();
 
+        TrajectorySequence traj2R= drive.trajectorySequenceBuilder(new Pose2d(10,34,Math.toRadians(180)))
+                .strafeLeft(25)
+                .lineTo(new Vector2d(25,9))
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .lineToLinearHeading(new Pose2d(47, 28, Math.toRadians(180)))
+                .waitSeconds(0.25)
+                .addDisplacementMarker(() -> {
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                })
+                .waitSeconds(1)
+                .addDisplacementMarker(() -> {
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .strafeLeft(18)
+                .lineTo(new Vector2d(61, 10))
                 .build();
 
 
@@ -175,7 +212,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
                             break;
                         case TRAJECTORY_2:
                             if(!drive.isBusy()){
-                                drive.followTrajectorySequence(traj2L);//!schimba
+                                drive.followTrajectorySequence(traj2C);
                             }
                     }
                     break;
@@ -189,7 +226,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
                             break;
                         case TRAJECTORY_2:
                             if(!drive.isBusy()){
-                                drive.followTrajectorySequence(traj2L);//!schimba
+                                drive.followTrajectorySequence(traj2R);
                             }
                     }
                     break;
