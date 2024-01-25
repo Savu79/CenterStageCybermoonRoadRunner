@@ -61,6 +61,12 @@ public class RobotHardware {
 
     public static double AvionParcat=1;
     public static double AvionDecolare=0.75;
+    public enum State {
+        TRAJECTORY_1,
+        TRAJECTORY_2,
+        TRAJECTORY_3,
+        TRAJECTORY_4// First, follow a splineTo() trajectory
+    }
 
     //public static double ServoControlMAX=0.75;
     //public static double ServoControlMID=0.9;
