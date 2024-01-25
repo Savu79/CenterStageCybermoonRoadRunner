@@ -70,7 +70,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
         robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
         robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
-        drive.setPoseEstimate(new Pose2d(0,0,Math.toRadians(0)));
+        drive.setPoseEstimate(new Pose2d(10, 61, Math.toRadians(270)));
 
         //* While pt ca pivMotor sa ajunga la pozitie + detectie
         while(opModeInInit()){
@@ -87,35 +87,41 @@ public class AutoSample2BlueNear extends LinearOpMode {
         Pose2d myPose= new Pose2d(-61.2,11.5,0);
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
-        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-38.175,9.125,Math.toRadians(90)))
-                .waitSeconds(1)
-                .addDisplacementMarker(()->{//functioneaza dupa 0.5 secunde
+        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                .lineToLinearHeading(new Pose2d(10,34,Math.toRadians(360)))
+                .addDisplacementMarker(()->{
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
-                .addDisplacementMarker(()->{//functioneaza duoa strafe(10)
+                .waitSeconds(1)
+                .addDisplacementMarker(()->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                 })
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);//(new Pose2d(-43.75, 53.875, Math.toRadians()));
                 })
                 .build();
-        TrajectorySequence traj2L= drive.trajectorySequenceBuilder(new Pose2d(-38.175,9.125,Math.toRadians(90)))
-                .strafeRight(18.175)
-                .lineToLinearHeading(new Pose2d(-40.25, 55, Math.toRadians(-90)))
+        TrajectorySequence traj2L= drive.trajectorySequenceBuilder(new Pose2d(10,34,Math.toRadians(360)))
+                .strafeRight(25)
+                .lineTo(new Vector2d(24,9))
                 .addDisplacementMarker(() -> {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                 })
+                .lineToLinearHeading(new Pose2d(47,38, Math.toRadians(180)))
+                .waitSeconds(0.25)
                 .addDisplacementMarker(() -> {
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
+                .waitSeconds(1)
                 .addDisplacementMarker(() -> {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
-                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                 })
+                .strafeLeft(28)
+                .lineTo(new Vector2d(61, 10))
                 .build();
+
         //? CENTER
         TrajectorySequence traj1C= drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .forward(25)
@@ -145,6 +151,7 @@ public class AutoSample2BlueNear extends LinearOpMode {
 
 
         while(opModeIsActive()){
+            drive.update();
             switch (pipeline.getAnalysis()) {
                 case LEFT:
                     switch (currentState)
@@ -192,7 +199,6 @@ public class AutoSample2BlueNear extends LinearOpMode {
             telemetry.addData("Y", myPose.getY());
             telemetry.addData("Heading", myPose.getHeading());
             telemetry.update();
-            drive.update();
         }
     }
 }
