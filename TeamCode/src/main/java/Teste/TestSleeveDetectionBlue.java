@@ -61,7 +61,7 @@ public class TestSleeveDetectionBlue extends LinearOpMode
         backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                backCamera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+                backCamera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(backCamera, 10);
             }
 
@@ -102,9 +102,9 @@ public class TestSleeveDetectionBlue extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(109,98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(0,98);//109
         static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(181,98);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(253,98);
+        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(300,98);//253
         static final int REGION_WIDTH = 20;
         static final int REGION_HEIGHT = 20;
 

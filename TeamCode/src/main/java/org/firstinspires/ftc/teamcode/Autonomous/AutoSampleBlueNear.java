@@ -136,12 +136,12 @@ public class AutoSampleBlueNear extends LinearOpMode {
                                 .build();
 
 
-        waitForStart(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //waitForStart(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         switch(pipeline.getAnalysis()){
             case LEFT:
-                drive.followTrajectorySequenceAsync(traj1L);
-                drive.followTrajectorySequenceAsync(traj2L);
+                drive.followTrajectorySequence(traj1L);
+                drive.followTrajectorySequence(traj2L);
                 break;
             case RIGHT:
                 drive.followTrajectorySequenceAsync(traj1R);
