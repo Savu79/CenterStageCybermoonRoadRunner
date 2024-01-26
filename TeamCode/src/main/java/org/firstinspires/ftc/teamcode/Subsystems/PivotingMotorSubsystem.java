@@ -18,6 +18,8 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     public static double P=0.004;
     public static double I=0;
     public static double D=0.01;
+    public static double compensate=0;
+    double comp=0;
 
     public PivotingMotorSubsystem(RobotHardware robot){
         this.robot=robot;
@@ -26,6 +28,8 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     }
     public void update(){
         controller.setPID(P,I,D);
+        if(target-getPivotingMotorPosition()>0 && Math.abs(target-getPivotingMotorPosition())>5) comp=compensate;
+        else comp=0;
         int error=target-getPivotingMotorPosition();
         PM.setPower(Range.clip(controller.calculate(0,error),-1,1));
     }
@@ -33,7 +37,7 @@ public class PivotingMotorSubsystem extends SubsystemBase {
     public void updateAuto(){
         controller.setPID(P,I,D);
         int error=target-getPivotingMotorPosition();
-        PM.setPower(Range.clip(controller.calculate(0,error),-0.5,0.5));
+        PM.setPower(Range.clip(controller.calculate(0,error)+comp,-0.5,0.5));
     }
     public int getPivotingMotorPosition(){
         return PM.getCurrentPosition();

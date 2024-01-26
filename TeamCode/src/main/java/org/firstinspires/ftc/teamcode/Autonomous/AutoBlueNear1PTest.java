@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.OpenCVCode.CenterStagePipelineBlue;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -27,14 +28,14 @@ public class AutoBlueNear1PTest extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
-    private TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue.SkystonePosition pi;
+    private CenterStagePipelineBlue.CenterStagePosition pi;
     int extTarget=0;
     Pose2d myPose;
     int pivTarget=RobotHardware.PivotINIT;
     boolean isClosed=false;
     boolean afost=false;
     OpenCvCamera backCamera;
-    TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue pipeline;
+    CenterStagePipelineBlue pipeline;
     ElapsedTime waitTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public void runOpMode(){
@@ -45,7 +46,7 @@ public class AutoBlueNear1PTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        pipeline = new TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue();
+        pipeline = new CenterStagePipelineBlue();
         backCamera.setPipeline(pipeline);
 
         backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
@@ -118,15 +119,45 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                 .lineTo(new Vector2d(61, 13))
                 .waitSeconds(1)
                 .build();
-/*
-                TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
-                                .lineTo(new Vector2d(10, 30))
-                                .addDisplacementMarker(() ->{
+
+        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
-                        })
-                        .waitSeconds(1)
-                        .addDisplacementMarker(() ->{
+                })
+                .lineTo(new Vector2d(10, 34))
+                .waitSeconds(1)
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .addDisplacementMarker(() ->{
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                })
+                .lineToLinearHeading(new Pose2d(49, 38, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .waitSeconds(2)
+                .strafeLeft(26)
+                .lineTo(new Vector2d(61, 12))
+                .waitSeconds(1)
+                .build();
+
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                .lineTo(new Vector2d(10, 34))
+                .turn(Math.toRadians(-90))
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                })
+                .waitSeconds(1)
+                .back(4)
+                .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
@@ -143,12 +174,11 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(2)
-                .strafeLeft(28)
+                .strafeLeft(26)
                 .lineTo(new Vector2d(61, 13))
                 .waitSeconds(1)
                 .build();
 
-*/
         while(opModeIsActive()){
             drive.update();
             switch (pi) {
@@ -159,11 +189,17 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                     }
                     break;
                 case CENTER:
-
+                    if(!afost) {
+                        drive.followTrajectorySequenceAsync(traj1C);
+                        afost=true;
+                    }
                     break;
 
                 case RIGHT:
-
+                    if(!afost) {
+                        drive.followTrajectorySequenceAsync(traj1R);
+                        afost=true;
+                    }
                     break;
             }
             pivMotor.updateAuto();

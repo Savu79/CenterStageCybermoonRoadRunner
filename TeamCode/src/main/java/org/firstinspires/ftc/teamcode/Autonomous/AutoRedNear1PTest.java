@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.OpenCVCode.CenterStagePipelineRed;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -27,14 +28,14 @@ public class AutoRedNear1PTest extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
-    private TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue.SkystonePosition pi;
+    private CenterStagePipelineRed.CenterStagePosition pi;
     int extTarget=0;
     Pose2d myPose;
     int pivTarget=RobotHardware.PivotINIT;
     boolean isClosed=false;
     boolean afost=false;
     OpenCvCamera backCamera;
-    TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue pipeline;
+    CenterStagePipelineRed pipeline;
     ElapsedTime waitTimer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
     public void runOpMode(){
@@ -45,7 +46,7 @@ public class AutoRedNear1PTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        pipeline = new TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue();
+        pipeline = new CenterStagePipelineRed();
         backCamera.setPipeline(pipeline);
 
         backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {

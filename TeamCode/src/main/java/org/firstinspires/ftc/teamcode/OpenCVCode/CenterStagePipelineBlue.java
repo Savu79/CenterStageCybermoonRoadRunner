@@ -21,21 +21,12 @@
 
 package org.firstinspires.ftc.teamcode.OpenCVCode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 /*
@@ -43,45 +34,9 @@ import org.openftc.easyopencv.OpenCvPipeline;
  * 100% accurate) method of detecting the skystone when lined up with
  * the sample regions over the first 3 stones.
  */
-@TeleOp
-public class OpenCVCode extends LinearOpMode
-{
-    OpenCvCamera backCamera;
-    CenterStagePipeline pipeline;
 
-    @Override
-    public void runOpMode()
-    {
-        telemetry= new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
-        pipeline = new CenterStagePipeline();
-        backCamera.setPipeline(pipeline);
-
-        backCamera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() {
-                backCamera.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-                FtcDashboard.getInstance().startCameraStream(backCamera, 10);
-            }
-
-            @Override
-            public void onError(int errorCode) {
-            }
-        });
-
-        waitForStart();
-
-        while (opModeIsActive())
-        {
-            telemetry.addData("Analysis", pipeline.getAnalysis());
-            telemetry.update();
-
-            sleep(50);
-        }
-    }
-
-    public static class CenterStagePipeline extends OpenCvPipeline
+    public class CenterStagePipelineBlue extends OpenCvPipeline
     {
         /*
          * An enum to define the skystone position
@@ -102,9 +57,8 @@ public class OpenCVCode extends LinearOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(109,98);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(181,98);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(253,98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(280,50);
+        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(110,90);
         static final int REGION_WIDTH = 20;
         static final int REGION_HEIGHT = 20;
 
@@ -137,20 +91,14 @@ public class OpenCVCode extends LinearOpMode
         Point region2_pointB = new Point(
                 REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
                 REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region3_pointA = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x,
-                REGION3_TOPLEFT_ANCHOR_POINT.y);
-        Point region3_pointB = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
 
         /*
          * Working variables
          */
-        Mat region1_Cb, region2_Cb, region3_Cb;
+        Mat region1_Cb, region2_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
-        int avg1, avg2, avg3;
+        int avg1, avg2;
 
         // Volatile since accessed by OpMode thread w/o synchronization
         private volatile CenterStagePosition position = CenterStagePosition.LEFT;
@@ -186,7 +134,6 @@ public class OpenCVCode extends LinearOpMode
              */
             region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
             region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
-            region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
         }
 
         @Override
@@ -241,7 +188,6 @@ public class OpenCVCode extends LinearOpMode
              */
             avg1 = (int) Core.mean(region1_Cb).val[0];
             avg2 = (int) Core.mean(region2_Cb).val[0];
-            avg3 = (int) Core.mean(region3_Cb).val[0];
 
             /*
              * Draw a rectangle showing sample region 1 on the screen.
@@ -269,27 +215,21 @@ public class OpenCVCode extends LinearOpMode
              * Draw a rectangle showing sample region 3 on the screen.
              * Simply a visual aid. Serves no functional purpose.
              */
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region3_pointA, // First point which defines the rectangle
-                    region3_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
 
 
             /*
              * Find the max of the 3 averages
              */
-            int maxOneTwo = Math.max(avg1, avg2);
-            int max = Math.max(maxOneTwo, avg3);
+            int max = Math.max(avg1, avg2);
+
 
             /*
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if(max == avg1) // Was it from region 1?
+            if(max>150 && max==avg1) // Was it from region 1?
             {
-                position = CenterStagePosition.LEFT; // Record our analysis
+                position = CenterStagePosition.RIGHT; // Record our analysis
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
@@ -302,7 +242,7 @@ public class OpenCVCode extends LinearOpMode
                         RED, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
-            else if(max == avg2) // Was it from region 2?
+            else if(max>150 && max == avg2) // Was it from region 2?
             {
                 position = CenterStagePosition.CENTER; // Record our analysis
 
@@ -317,21 +257,14 @@ public class OpenCVCode extends LinearOpMode
                         RED, // The color the rectangle is drawn in
                         -1); // Negative thickness means solid fill
             }
-            else if(max == avg3) // Was it from region 3?
-            {
-                position = CenterStagePosition.RIGHT; // Record our analysis
+            else {
+                position = CenterStagePosition.LEFT;
 
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region3_pointA, // First point which defines the rectangle
-                        region3_pointB, // Second point which defines the rectangle
-                        RED, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
+                //Imgproc.rectangle(
+                //        input, new Point(0,0), new Point (20, 20), RED, -1
+                //);
             }
+
 
             /*
              * Render the 'input' buffer to the viewport. But note this is not
@@ -348,5 +281,6 @@ public class OpenCVCode extends LinearOpMode
         {
             return position;
         }
+        public int getNumber1(){return avg1;}
+        public int getNumber2(){return avg2;}
     }
-}
