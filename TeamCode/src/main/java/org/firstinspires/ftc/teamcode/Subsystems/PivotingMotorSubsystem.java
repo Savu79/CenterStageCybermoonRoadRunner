@@ -29,6 +29,12 @@ public class PivotingMotorSubsystem extends SubsystemBase {
         int error=target-getPivotingMotorPosition();
         PM.setPower(Range.clip(controller.calculate(0,error),-1,1));
     }
+
+    public void updateAuto(){
+        controller.setPID(P,I,D);
+        int error=target-getPivotingMotorPosition();
+        PM.setPower(Range.clip(controller.calculate(0,error),-0.5,0.5));
+    }
     public int getPivotingMotorPosition(){
         return PM.getCurrentPosition();
     }

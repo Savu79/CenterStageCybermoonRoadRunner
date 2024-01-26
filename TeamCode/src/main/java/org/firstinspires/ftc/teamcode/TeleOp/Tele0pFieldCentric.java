@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,67 +12,66 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
+import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 @TeleOp(group ="tele0p")
 public class Tele0pFieldCentric extends LinearOpMode {
-    public Servo MicroServo1;
-    public Servo MicroServo2;
-    public Servo AngleControlServo;
+//    public Servo MicroServo1;
+//    public Servo MicroServo2;
+//    public Servo AngleControlServo;
 
-    public DcMotorEx PivotingMotor;
-    public DcMotorEx ExtentionMotor;
+    private RobotHardware robot= RobotHardware.getInstance();
     private SampleMecanumDrive drive;
+    private ExtentionSubsystem extMotor;
+    private PivotingMotorSubsystem pivMotor;
     int extTarget=0;
-    int pivTarget=RobotHardware.PivotMIN;
+    int pivTarget=RobotHardware.PivotMID+150;
     boolean isClosed=false;
     @Override
     public void runOpMode() throws InterruptedException {
+
+        robot.init(hardwareMap,telemetry);
         drive = new SampleMecanumDrive(hardwareMap);
-        MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");
-        MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");
+        //extMotor= new ExtentionSubsystem(robot);
+        pivMotor = new PivotingMotorSubsystem(robot);
 
-        AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");
-
-        PivotingMotor= hardwareMap.get(DcMotorEx.class, "PivotingMotor");
-        PivotingMotor.setTargetPosition(RobotHardware.PivotMIN);
-        PivotingMotor.setPower(1);
-        PivotingMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        ExtentionMotor= hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
-        ExtentionMotor.setTargetPosition(RobotHardware.ExtentionMIN);
-        ExtentionMotor.setPower(1);
-        ExtentionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-        MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
-
-        AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+        pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+        //extMotor.setExtentionTarget(0);
+        //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
         waitForStart();
 
         while (opModeIsActive()) {
-            extTarget=ExtentionMotor.getCurrentPosition();
+            pivMotor.update();
+            //extMotor.update();
+            //extTarget=extMotor.getExtentionPosition();
             //* MUTARE SERVOCONTROL LA POZITIE MAXIMA DUPA PivotMID
-            if(PivotingMotor.getCurrentPosition()> 200)
-                AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+            if(pivMotor.getPivotingMotorPosition()> 200)
+                robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
-            if(PivotingMotor.getCurrentPosition()< 200)
-                AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+            if(pivMotor.getPivotingMotorPosition()< 200)
+                robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
-            //* MUTARE EXTENTION DE LA JOYSTICK
+            //* MUTARE EXTENTION
             if(gamepad2.left_stick_y!=0){
                 extTarget+=(int)(gamepad2.left_stick_y*40);
                 extTarget= Range.clip(extTarget, RobotHardware.ExtentionMIN, RobotHardware.ExtentionMAX);
             }
-            ExtentionMotor.setTargetPosition(extTarget);
+            if(gamepad2.a) extTarget=500;
+            if(gamepad2.b) extTarget=900;
+            if(gamepad2.x) extTarget=0;
+            //extMotor.setExtentionTarget(extTarget);
+            robot.ExtentionMotor.setTargetPosition(extTarget);
 
+            //*MUTARE PIVOTING
             if(gamepad2.right_stick_y!=0) {
                 pivTarget+=(int)(gamepad2.right_stick_y*30);
                 pivTarget= Range.clip(pivTarget, RobotHardware.PivotMIN, RobotHardware.PivotMAX);
             }
-            PivotingMotor.setTargetPosition(pivTarget);
+            pivMotor.setPivotingMotorTarget(pivTarget);
 
             if(gamepad2.dpad_up)
             {
@@ -87,31 +85,42 @@ public class Tele0pFieldCentric extends LinearOpMode {
             {
                 pivTarget=RobotHardware.PivotMIN;
             }
+
+            //*MUTARE POZTII MICROCSERVO
             if(gamepad1.a)
             {
                 if(!isClosed) {
-                    MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
-                    MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                    robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
                     sleep(700);
                     isClosed=true;
                 }
                 else {
-                    MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                    MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                    robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                     isClosed=false;
                     sleep(700);
                 }
             }
-
+            //*AVION
+            if(gamepad1.dpad_left)
+            {
+                robot.ServoAvion.setPosition(RobotHardware.AvionDecolare);
+            }
+            if(gamepad1.dpad_up)
+            {
+                robot.ServoAvion.setPosition(RobotHardware.AvionParcat);
+            }
+            //*DRIVE
             // Read pose
             Pose2d poseEstimate = drive.getPoseEstimate();
 
 // Create a vector from the gamepad x/y inputs
 // Then, rotate that vector by the inverse of that heading
-            com.acmerobotics.roadrunner.geometry.Vector2d input = new Vector2d(
-                    gamepad1.left_stick_y,
+            Vector2d input = new Vector2d(
+                    -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x
-            ).rotated(-poseEstimate.getHeading());
+            ).rotateBy(-poseEstimate.getHeading());
 
 // Pass in the rotated input + right stick value for rotation
 // Rotation is not part of the rotated input thus must be passed in separately
@@ -122,15 +131,14 @@ public class Tele0pFieldCentric extends LinearOpMode {
                             -gamepad1.right_stick_x
                     )
             );
-            drive.updatePoseEstimate();
 
             telemetry.addData("x", drive.getPoseEstimate().getX());
             telemetry.addData("y", drive.getPoseEstimate().getY());
             telemetry.addData("heading (deg)", Math.toDegrees(drive.getPoseEstimate().getHeading()));
-            telemetry.addData("pivotMotor", PivotingMotor.getCurrentPosition());
-            telemetry.addData("pivotMotorTarget", PivotingMotor.getTargetPosition());
-            telemetry.addData("ExtentionMotor", ExtentionMotor.getCurrentPosition());
-            telemetry.addData("AngControlServo", AngleControlServo.getPosition());
+            telemetry.addData("pivotMotor", pivMotor.getPivotingMotorPosition());
+            telemetry.addData("pivotMotorTarget", pivMotor.getPivotingMotorPosition());
+            telemetry.addData("ExtentionMotor", robot.ExtentionMotor.getCurrentPosition());
+            telemetry.addData("AngControlServo", robot.AngleControlServo.getPosition());
             telemetry.update();
         }
     }

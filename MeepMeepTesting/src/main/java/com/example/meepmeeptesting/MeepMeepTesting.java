@@ -16,7 +16,7 @@ public class MeepMeepTesting {
         AutoRed1PL,
         AutoRed2PL,
     }
-    static cas currentState=cas.AutoBlue1PC;//TODO shimba asta in functie de ce caz vrei
+    static cas currentState=cas.AutoBlue1PL;//TODO shimba asta in functie de ce caz vrei
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -27,12 +27,15 @@ public class MeepMeepTesting {
                         .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
-                                        .lineToLinearHeading(new Pose2d(10, 34, Math.toRadians(360)))
+                                        .lineTo(new Vector2d(10, 34))
+                                        .turn(Math.toRadians(90))
+                                        .back(4)
+                                        .forward(4)
                                         .strafeRight(25)
                                         .lineTo(new Vector2d(25, 9))
-                                        .lineToLinearHeading(new Pose2d(47, 38, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(49, 41, Math.toRadians(180)))
                                         .strafeLeft(28)
-                                        .lineTo(new Vector2d(61, 10))
+                                        .lineTo(new Vector2d(61, 13))
                                         .waitSeconds(1)
                                         .build());
                 meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

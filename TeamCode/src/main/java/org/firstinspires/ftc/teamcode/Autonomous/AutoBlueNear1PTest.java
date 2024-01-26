@@ -86,21 +86,75 @@ public class AutoBlueNear1PTest extends LinearOpMode {
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
-                .lineToLinearHeading(new Pose2d(10, 34, Math.toRadians(360)))
+                .lineTo(new Vector2d(10, 34))
+                .turn(Math.toRadians(90))
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                        })
+                .waitSeconds(1)
+                .back(4)
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .waitSeconds(1)
+                .forward(4)
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
                 .strafeRight(25)
                 .lineTo(new Vector2d(25, 9))
-                .lineToLinearHeading(new Pose2d(47, 38, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                })
+                .lineToLinearHeading(new Pose2d(49, 41, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .waitSeconds(2)
                 .strafeLeft(28)
-                .lineTo(new Vector2d(61, 10))
+                .lineTo(new Vector2d(61, 13))
+                .waitSeconds(1)
+                .build();
+/*
+                TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                                .lineTo(new Vector2d(10, 30))
+                                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                        })
+                        .waitSeconds(1)
+                        .addDisplacementMarker(() ->{
+                    robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .waitSeconds(1)
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .addDisplacementMarker(() ->{
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                })
+                .lineToLinearHeading(new Pose2d(49, 41, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                })
+                .waitSeconds(2)
+                .strafeLeft(28)
+                .lineTo(new Vector2d(61, 13))
                 .waitSeconds(1)
                 .build();
 
+*/
         while(opModeIsActive()){
             drive.update();
             switch (pi) {
                 case LEFT:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1L);
+                        drive.followTrajectorySequenceAsync(traj1L);
                         afost=true;
                     }
                     break;
@@ -112,7 +166,7 @@ public class AutoBlueNear1PTest extends LinearOpMode {
 
                     break;
             }
-            //pivMotor.update();
+            pivMotor.updateAuto();
             myPose=drive.getPoseEstimate();
             telemetry.addData("X", myPose.getX());
             telemetry.addData("Y", myPose.getY());
