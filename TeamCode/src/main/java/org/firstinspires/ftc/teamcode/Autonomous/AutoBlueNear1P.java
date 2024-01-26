@@ -27,6 +27,7 @@ public class AutoBlueNear1P extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
+    private TestSleeveDetectionBlue.SkystoneDeterminationPipelineBlue.SkystonePosition pi;
     int extTarget=0;
     int pivTarget=RobotHardware.PivotINIT;
     boolean isClosed=false;
@@ -72,6 +73,7 @@ public class AutoBlueNear1P extends LinearOpMode {
             pivMotor.update();
             telemetry.addData("Analysis", pipeline.getAnalysis());
             telemetry.update();
+            pi=pipeline.getAnalysis();
         }
         RobotHardware.State currentState;
         currentState= RobotHardware.State.TRAJECTORY_1;
@@ -85,33 +87,33 @@ public class AutoBlueNear1P extends LinearOpMode {
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
                 .lineToLinearHeading(new Pose2d(10,34,Math.toRadians(360)))
                 .addDisplacementMarker(()->{
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
-                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                    //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                    //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
                 .waitSeconds(1)
                 .addDisplacementMarker(()->{
-                    robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                 })
                 .waitSeconds(0.5)
                 .addDisplacementMarker(() -> {
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);//(new Pose2d(-43.75, 53.875, Math.toRadians()));
+                    //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);//(new Pose2d(-43.75, 53.875, Math.toRadians()));
                 })
                 .build();
         TrajectorySequence traj2L= drive.trajectorySequenceBuilder(new Pose2d(10,34,Math.toRadians(360)))
                 .strafeRight(25)
                 .lineTo(new Vector2d(24,9))
                 .addDisplacementMarker(() -> {
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
-                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                    //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                    //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                 })
                 .lineToLinearHeading(new Pose2d(47,38, Math.toRadians(180)))
                 .waitSeconds(0.25)
                 .addDisplacementMarker(() -> {
-                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                    //robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
                 .waitSeconds(1)
                 .addDisplacementMarker(() -> {
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                    //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .strafeLeft(28)
                 .lineTo(new Vector2d(61, 10))
@@ -189,7 +191,7 @@ public class AutoBlueNear1P extends LinearOpMode {
 
         while(opModeIsActive()){
             drive.update();
-            switch (pipeline.getAnalysis()) {
+            switch (pi) {
                 case LEFT:
                     switch (currentState)
                     {

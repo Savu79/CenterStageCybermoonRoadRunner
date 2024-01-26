@@ -47,7 +47,7 @@ public class RobotHardware {
     public static double MicroServoINCHIS1=0.50;
     public static double MicroServoINCHIS2=0.71;
 
-    public static int PivotMAX=1185;//1185
+    public static int PivotMAX=1279;
     public static int PivotMID=250;
     public static int PivotMIN=0;
     public static int PivotINIT=533;//? de testat
@@ -55,7 +55,7 @@ public class RobotHardware {
     public static int ExtentionMAX=900;
     public static int ExtentionMIN=0;
 
-    public static double ServoControlMAX=0.48;
+    public static double ServoControlMAX=0.55;
     public static double ServoControlMID=0.2;
     public static double ServoControlMIN=0.0315;
 
