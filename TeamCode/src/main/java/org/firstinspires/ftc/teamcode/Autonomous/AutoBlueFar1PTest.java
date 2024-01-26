@@ -88,13 +88,13 @@ public class AutoBlueFar1PTest extends LinearOpMode {
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
-                .lineTo(new Vector2d(-40, 34))
+                .lineTo(new Vector2d(-40, 32))
                 .turn(Math.toRadians(90))
                 .waitSeconds(1)
                 .addDisplacementMarker(() ->{
-                                   robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-                                   pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
-                                        })
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                })
                 .addDisplacementMarker(() ->{
                                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
@@ -117,18 +117,18 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                 .waitSeconds(1)
                 .build();
 
-        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(-35, 61, Math.toRadians(270)))
-                .lineTo(new Vector2d(-35, 38))
-                .waitSeconds(1)
+        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
                 .addDisplacementMarker(() ->{
                                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                                         })
-                .back(4)
+                .lineTo(new Vector2d(-36, 38))
+                .waitSeconds(1)
                 .addDisplacementMarker(() ->{
                                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                                 })
+                .back(4)
                 .strafeRight(20)
                 .lineTo(new Vector2d(-52, 9))
                 .lineToLinearHeading(new Pose2d(25, 9,Math.toRadians(180)))
@@ -142,13 +142,13 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                                 })
                 .waitSeconds(1)
-                .strafeLeft(24)
-                .lineTo(new Vector2d(59, 10))
+                .strafeLeft(26)
+                .lineTo(new Vector2d(59, 8))
                 .waitSeconds(1)
                 .build();
 
-        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(-35, 61, Math.toRadians(270)))
-                .lineTo(new Vector2d(-35, 34))
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
+                .lineTo(new Vector2d(-36, 34))
                 .turn(Math.toRadians(-90))
                 .back(5)
                 .addDisplacementMarker(() ->{
@@ -185,31 +185,31 @@ public class AutoBlueFar1PTest extends LinearOpMode {
             switch (pi) {
                 case LEFT:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1L);
+                        drive.followTrajectorySequenceAsync(traj1L);
                         afost=true;
                     }
                     break;
                 case CENTER:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1C);
+                        drive.followTrajectorySequenceAsync(traj1C);
                         afost=true;
                     }
                     break;
 
                 case RIGHT:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1R);
+                        drive.followTrajectorySequenceAsync(traj1R);
                         afost=true;
                     }
                     break;
             }
-            //pivMotor.update();
+            pivMotor.updateAuto();
             myPose=drive.getPoseEstimate();
             telemetry.addData("X", myPose.getX());
             telemetry.addData("Y", myPose.getY());
             telemetry.addData("Heading", myPose.getHeading());
             telemetry.update();
-            pivMotor.update();
         }
     }
 }
+

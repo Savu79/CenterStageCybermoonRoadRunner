@@ -50,7 +50,7 @@ public class RobotHardware {
     public static int PivotMAX=1279;
     public static int PivotMID=250;
     public static int PivotMIN=0;
-    public static int PivotINIT=533;//? de testat
+    public static int PivotINIT=500;//? de testat
 
     public static int ExtentionMAX=900;
     public static int ExtentionMIN=0;

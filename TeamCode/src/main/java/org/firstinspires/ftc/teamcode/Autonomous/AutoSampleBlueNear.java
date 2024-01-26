@@ -22,7 +22,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import Teste.TestSleeveDetectionBlue;
 import Teste.TestSleeveDetectionRed;
 
-@Autonomous
+
 public class AutoSampleBlueNear extends LinearOpMode {
 
     private RobotHardware robot= RobotHardware.getInstance();

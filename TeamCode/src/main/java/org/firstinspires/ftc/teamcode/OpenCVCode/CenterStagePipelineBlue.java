@@ -229,7 +229,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
              */
             if(max>150 && max==avg1) // Was it from region 1?
             {
-                position = CenterStagePosition.RIGHT; // Record our analysis
+                position = CenterStagePosition.LEFT; // Record our analysis
 
                 /*
                  * Draw a solid rectangle on top of the chosen region.
@@ -258,7 +258,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
                         -1); // Negative thickness means solid fill
             }
             else {
-                position = CenterStagePosition.LEFT;
+                position = CenterStagePosition.RIGHT;
 
                 //Imgproc.rectangle(
                 //        input, new Point(0,0), new Point (20, 20), RED, -1
