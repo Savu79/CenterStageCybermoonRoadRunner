@@ -14,9 +14,13 @@ public class MeepMeepTesting {
         AutoBlue1PC,
         AutoBlue2PL,
         AutoRed1PL,
+
+        AutoRedFar1PL,
+        AutoRedFar1PC ,
+        AutoRedFar1PR,
         AutoRed2PL,
     }
-    static cas currentState=cas.AutoBlue1PL;//TODO shimba asta in functie de ce caz vrei
+    static cas currentState=cas.AutoRedFar1PC;//TODO shimba asta in functie de ce caz vrei
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -27,15 +31,12 @@ public class MeepMeepTesting {
                         .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
-                                        .lineTo(new Vector2d(10, 34))
-                                        .turn(Math.toRadians(90))
-                                        .back(4)
-                                        .forward(4)
+                                        .lineToLinearHeading(new Pose2d(10, 34, Math.toRadians(360)))
                                         .strafeRight(25)
                                         .lineTo(new Vector2d(25, 9))
-                                        .lineToLinearHeading(new Pose2d(49, 41, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(47, 38, Math.toRadians(180)))
                                         .strafeLeft(28)
-                                        .lineTo(new Vector2d(61, 13))
+                                        .lineTo(new Vector2d(61, 10))
                                         .waitSeconds(1)
                                         .build());
                 meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
@@ -113,6 +114,84 @@ public class MeepMeepTesting {
                         .addEntity(myBot2L)
                         .start();
                 break;
+
+
+            case AutoRedFar1PL:
+                RoadRunnerBotEntity myBotRedFar1PL = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-35, -61, Math.toRadians(90)))
+                                        .lineTo(new Vector2d(-35, -34))
+                                        .turn(Math.toRadians(90))
+                                        .back(5)
+                                        .waitSeconds(1)
+                                        .forward(5)
+                                        .strafeRight(25)
+                                        .lineTo(new Vector2d(25, -9))
+                                        .lineToLinearHeading(new Pose2d(47, -28, Math.toRadians(180)))
+                                        .waitSeconds(1)
+                                        .strafeRight(18)
+                                        .lineTo(new Vector2d(59, -10))
+                                        .waitSeconds(1)
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(myBotRedFar1PL)
+                        .start();
+                break;
+
+            case AutoRedFar1PC:
+                RoadRunnerBotEntity myBotRedFar1PC = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-35, -61, Math.toRadians(90)))
+                                        .lineTo(new Vector2d(-35, -38))
+                                        .waitSeconds(1)
+                                        .strafeLeft(20)
+                                        .lineTo(new Vector2d(-52, -9))
+                                        .lineToLinearHeading(new Pose2d(25, -9,Math.toRadians(180)))
+                                        .lineTo(new Vector2d(47, -34))
+                                        .waitSeconds(1)
+                                        .strafeRight(24)
+                                        .lineTo(new Vector2d(59, -10))
+                                        .waitSeconds(1)
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(myBotRedFar1PC)
+                        .start();
+                break;
+
+            case AutoRedFar1PR:
+                RoadRunnerBotEntity myBotRedFar1PR = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-35, -61, Math.toRadians(90)))
+                                        .lineTo(new Vector2d(-40, -34))
+                                        .turn(Math.toRadians(-90))
+                                        .waitSeconds(1)
+                                        .strafeLeft(25)
+                                        .lineTo(new Vector2d(25, -9))
+                                        .lineToLinearHeading(new Pose2d(47, -42, Math.toRadians(180)))
+                                        .waitSeconds(1)
+                                        .strafeRight(32)
+                                        .lineTo(new Vector2d(59, -10))
+                                        .waitSeconds(1)
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(myBotRedFar1PR)
+                        .start();
+                break;
+
+
+
 
         }
     }
