@@ -19,8 +19,9 @@ public class MeepMeepTesting {
         AutoRedFar1PC ,
         AutoRedFar1PR,
         AutoRed2PL,
+        TEST,
     }
-    static cas currentState=cas.AutoRedFar1PC;//TODO shimba asta in functie de ce caz vrei
+    static cas currentState=cas.TEST;//TODO shimba asta in functie de ce caz vrei
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -166,27 +167,34 @@ public class MeepMeepTesting {
                         .start();
                 break;
 
-            case AutoRedFar1PR:
-                RoadRunnerBotEntity myBotRedFar1PR = new DefaultBotBuilder(meepMeep)
+            case TEST: // case pentru teste
+                RoadRunnerBotEntity TEST = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                         .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .followTrajectorySequence(drive ->
-                                drive.trajectorySequenceBuilder(new Pose2d(-35, -61, Math.toRadians(90)))
-                                        .lineTo(new Vector2d(-40, -34))
+                                drive.trajectorySequenceBuilder(new Pose2d(10, -61, Math.toRadians(90)))
+                                        .addDisplacementMarker(() ->{
+
+                                        })
+                                        .waitSeconds(1)
+                                        .lineTo(new Vector2d(10, -34))
                                         .turn(Math.toRadians(-90))
+                                        .back(3)
+                                        .addDisplacementMarker(() ->{
+
+                                        })
                                         .waitSeconds(1)
-                                        .strafeLeft(25)
-                                        .lineTo(new Vector2d(25, -9))
-                                        .lineToLinearHeading(new Pose2d(47, -42, Math.toRadians(180)))
-                                        .waitSeconds(1)
-                                        .strafeRight(32)
-                                        .lineTo(new Vector2d(59, -10))
-                                        .waitSeconds(1)
+                                        .forward(3)
+                                        .turn(Math.toRadians(-180))
+                                        .addDisplacementMarker(() ->{
+                                        })
+                                        .strafeLeft(27)
+                                        .back(50)
                                         .build());
                 meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                         .setDarkMode(true)
                         .setBackgroundAlpha(0.95f)
-                        .addEntity(myBotRedFar1PR)
+                        .addEntity(TEST)
                         .start();
                 break;
 

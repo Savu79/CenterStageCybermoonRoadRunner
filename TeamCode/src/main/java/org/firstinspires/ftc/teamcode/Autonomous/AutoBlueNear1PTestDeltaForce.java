@@ -20,10 +20,8 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
-import Teste.TestSleeveDetectionBlue;
-
 @Autonomous
-public class AutoBlueFarSimple extends LinearOpMode {
+public class AutoBlueNear1PTestDeltaForce extends LinearOpMode {
     //*1P de la un pixel
     private RobotHardware robot= RobotHardware.getInstance();
     private SampleMecanumDrive drive;
@@ -70,7 +68,7 @@ public class AutoBlueFarSimple extends LinearOpMode {
         robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
         robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
-        drive.setPoseEstimate(new Pose2d(-36, 61, Math.toRadians(270)));
+        drive.setPoseEstimate(new Pose2d(10, 61, Math.toRadians(270)));
 
         //* While pt ca pivMotor sa ajunga la pozitie + detectie
         while(opModeInInit()){
@@ -87,63 +85,73 @@ public class AutoBlueFarSimple extends LinearOpMode {
 
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
-        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
+        TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                 })
                 .waitSeconds(1)
-                .lineTo(new Vector2d(-36, 34))
+                .lineTo(new Vector2d(10, 34))
                 .turn(Math.toRadians(90))
                 .waitSeconds(1)
-                .back(2)
+                .back(1)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(1)
-                .forward(2)
-                //.strafeRight(20)
+                .forward(1)
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .waitSeconds(0.5)
+                .turn(Math.toRadians(180))
+                .strafeRight(24)
+                .back(50)
                 .build();
 
-        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
+        TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                 })
+                .lineTo(new Vector2d(10, 34))
                 .waitSeconds(1)
-                .lineTo(new Vector2d(-36, 38))
-                .waitSeconds(1)
-                .back(2)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
-                .waitSeconds(1)
-                .forward(2)
-                //.forward(20)
-                .build();
-
-        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
-                .addDisplacementMarker(() ->{
-                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
-                })
-                .waitSeconds(1)
-                .lineTo(new Vector2d(-36, 34))
                 .turn(Math.toRadians(-90))
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .waitSeconds(0.5)
+                .strafeRight(24)
+                .back(50)
+                .build();
+
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                })
                 .waitSeconds(1)
-                .back(2)
+                .lineTo(new Vector2d(10, 34))
+                .turn(Math.toRadians(-90))
+                .back(3)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(1)
-                .forward(2)
-                //.strafeLeft(20)
+                .forward(3)
+                .addDisplacementMarker(() ->{
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                })
+                .waitSeconds(0.5)
+                .strafeRight(24)
+                .back(50)
                 .build();
-
-
 
         while(opModeIsActive()){
             drive.update();
@@ -177,4 +185,3 @@ public class AutoBlueFarSimple extends LinearOpMode {
         }
     }
 }
-

@@ -57,7 +57,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(280,50);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(280,70);
         static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(110,90);
         static final int REGION_WIDTH = 20;
         static final int REGION_HEIGHT = 20;

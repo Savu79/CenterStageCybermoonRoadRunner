@@ -88,19 +88,21 @@ public class AutoRedNear1PTest extends LinearOpMode {
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(10, -61, Math.toRadians(90)))
-                .lineTo(new Vector2d(10, -34))
-                .turn(Math.toRadians(90))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                 })
                 .waitSeconds(1)
-                .back(4)
+                .lineTo(new Vector2d(10, -34))
+                .turn(Math.toRadians(90))
+                .waitSeconds(1)
+                .back(1)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(1)
+                .forward(1)
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                 })
@@ -109,14 +111,15 @@ public class AutoRedNear1PTest extends LinearOpMode {
                 .addDisplacementMarker(() ->{
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(49, -41, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(51, -24, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(2)
-                .strafeRight(28)
-                .lineTo(new Vector2d(61, -13))
+                .forward(4)
+                .strafeRight(17)
+                .lineTo(new Vector2d(60, -13))
                 .waitSeconds(1)
                 .build();
 
@@ -137,45 +140,50 @@ public class AutoRedNear1PTest extends LinearOpMode {
                 .addDisplacementMarker(() ->{
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(49, -38, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(51, -34, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(2)
-                .strafeRight(26)
-                .lineTo(new Vector2d(61, -12))
+                .forward(4)
+                .strafeRight(23)
+                .lineTo(new Vector2d(60, -12))
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(10, -61, Math.toRadians(90)))
-                .lineTo(new Vector2d(10, -34))
-                .turn(Math.toRadians(-90))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                 })
                 .waitSeconds(1)
-                .back(4)
+                .lineTo(new Vector2d(10, -32))
+                .turn(Math.toRadians(-90))
+                .back(3)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(1)
+                .forward(3)
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                 })
+                .strafeLeft(23)
+                .lineTo(new Vector2d(25, -9))
                 .addDisplacementMarker(() ->{
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(49, -41, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(51, -37, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                 })
                 .waitSeconds(2)
-                .strafeRight(26)
-                .lineTo(new Vector2d(61, -13))
+                .forward(4)
+                .strafeRight(28)
+                .lineTo(new Vector2d(60, -13))
                 .waitSeconds(1)
                 .build();
 
