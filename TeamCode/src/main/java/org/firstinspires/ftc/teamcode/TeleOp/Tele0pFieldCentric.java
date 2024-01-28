@@ -1,9 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.geometry.Rotation2d;
 import com.arcrobotics.ftclib.geometry.Translation2d;
-import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -112,18 +112,12 @@ public class Tele0pFieldCentric extends LinearOpMode {
                 robot.ServoAvion.setPosition(RobotHardware.AvionParcat);
             }
             //*DRIVE
-            // Read pose
             Pose2d poseEstimate = drive.getPoseEstimate();
-
-// Create a vector from the gamepad x/y inputs
-// Then, rotate that vector by the inverse of that heading
-            Vector2d input = new Vector2d(
+            com.acmerobotics.roadrunner.geometry.Vector2d input = new Vector2d(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x
-            ).rotateBy(-poseEstimate.getHeading());
+            ).rotated(-poseEstimate.getHeading());
 
-// Pass in the rotated input + right stick value for rotation
-// Rotation is not part of the rotated input thus must be passed in separately
             drive.setWeightedDrivePower(
                     new Pose2d(
                             input.getX(),
@@ -131,6 +125,7 @@ public class Tele0pFieldCentric extends LinearOpMode {
                             -gamepad1.right_stick_x
                     )
             );
+            drive.update();
 
             telemetry.addData("x", drive.getPoseEstimate().getX());
             telemetry.addData("y", drive.getPoseEstimate().getY());
