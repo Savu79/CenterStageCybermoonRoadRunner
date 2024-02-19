@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -32,6 +35,9 @@ public class RobotHardware {
     public DcMotorEx PivotingMotor;
     public DcMotorEx ExtentionMotor;
 
+    public DcMotorEx ClimbRight;
+    public DcMotorEx ClimbLeft;
+
     private HardwareMap hardwareMap;
 
     //public SleeveDetection.SkystoneDeterminationPipeline pipeline;
@@ -47,20 +53,24 @@ public class RobotHardware {
     public static double MicroServoINCHIS1=0.50;
     public static double MicroServoINCHIS2=0.71;
 
-    public static int PivotMAX=1279;
+    public static int PivotMAX=1200;
     public static int PivotMID=250;
     public static int PivotMIN=0;
     public static int PivotINIT=500;//? de testat
 
-    public static int ExtentionMAX=900;
+    public static int ExtentionMAX=750;
+    public static int ExtentionMID=0;
     public static int ExtentionMIN=0;
 
-    public static double ServoControlMAX=0.55;
-    public static double ServoControlMID=0.2;
-    public static double ServoControlMIN=0.0315;
+    public static double ServoControlMAX=0.62; //0.55
+    public static double ServoControlMID=0.39; //0.2
+    public static double ServoControlMIN=0.065; //0.315
 
     public static double AvionParcat=1;
     public static double AvionDecolare=0.75;
+
+    public static double ClimbJos=0;
+    public static double ClimbSus=0;
     public enum State {
         TRAJECTORY_1,
         TRAJECTORY_2,
@@ -83,11 +93,11 @@ public class RobotHardware {
         //TODO declaram motoare
         MicroServo1= hardwareMap.get(Servo.class, "MicroServo1");//albastru
         MicroServo2= hardwareMap.get(Servo.class, "MicroServo2");//negru
-        MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-        MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+        MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+        MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
 
         AngleControlServo= hardwareMap.get(Servo.class, "ControlServo");//albastru+negru
-        AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+        AngleControlServo.setPosition(RobotHardware.ServoControlMID);
 
         ServoAvion=hardwareMap.get(Servo.class, "AvionServo");
         ServoAvion.setPosition(AvionParcat);
@@ -101,6 +111,12 @@ public class RobotHardware {
         ExtentionMotor.setPower(0.75);
         ExtentionMotor.setTargetPosition(0);
         ExtentionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        ClimbLeft= hardwareMap.get(DcMotorEx.class, "ClimbLeft");
+        ClimbLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        ClimbRight= hardwareMap.get(DcMotorEx.class, "ClimbRight");
+
+
 
 //        backCamera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"));
 //        pipeline = new SleeveDetection.SkystoneDeterminationPipeline();

@@ -77,6 +77,7 @@ public class AutoSampleBlueNear extends LinearOpMode {
         //* Traiectorii RoadRunner
 
         Pose2d myPose= new Pose2d(-61.2,11.5,0);
+        drive.setPoseEstimate(myPose);
         //! pt fiecare caz, deplasarea pana la depunerea primului pixel
         //? LEFT
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(myPose)
@@ -136,7 +137,7 @@ public class AutoSampleBlueNear extends LinearOpMode {
                                 .build();
 
 
-        //waitForStart(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        waitForStart(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         switch(pipeline.getAnalysis()){
             case LEFT:
