@@ -85,7 +85,6 @@ public class Tele0pPID extends LinearOpMode {
             {
                 pivTarget=RobotHardware.PivotMIN;
             }
-
             //*MUTARE POZTII MICROCSERVO
             if(gamepad1.a)
             {

@@ -58,9 +58,9 @@ public class RobotHardware {
     public static int PivotMIN=0;
     public static int PivotINIT=500;//? de testat
 
-    public static int ExtentionMAX=750;
+    public static int ExtentionMAX=700;
     public static int ExtentionMID=0;
-    public static int ExtentionMIN=0;
+    public static int ExtentionMIN=25;
 
     public static double ServoControlMAX=0.62; //0.55
     public static double ServoControlMID=0.39; //0.2

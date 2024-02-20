@@ -47,10 +47,10 @@ public class Tele0pPIDNEW extends LinearOpMode {
             if(pivMotor.getPivotingMotorPosition()> 200)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
 
-            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget>200)
+            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget>400)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
-            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget<200)
+            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget<400)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
 
             //* MUTARE EXTENTION
