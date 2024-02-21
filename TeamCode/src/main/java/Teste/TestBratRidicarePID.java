@@ -28,9 +28,9 @@ public class TestBratRidicarePID extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            if(gamepad1.a) target=500;
-            if(gamepad1.b) target=900;
-            if(gamepad1.x) target=0;
+            if(gamepad1.b) target=250;
+            if(gamepad1.y) target=1200;
+            if(gamepad1.a) target=0;
 
             pivMotor.setPivotingMotorTarget(target);
             pivMotor.update();

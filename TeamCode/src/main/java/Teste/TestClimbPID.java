@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.Range;
 public class TestClimbPID extends LinearOpMode {
     private DcMotorEx climb1;
     private DcMotorEx climb2;
-    private PIDController controller1;
-    private PIDController controller2;
+    private PIDController controller1 = new PIDController(P, I, D);
+    private PIDController controller2 = new PIDController(P, I, D);
 
     public static int target=0;
     public static double P = 0.003;
@@ -26,6 +26,10 @@ public class TestClimbPID extends LinearOpMode {
         climb2.setDirection(DcMotorSimple.Direction.REVERSE);
         waitForStart();
         while(opModeIsActive()){
+            if(gamepad1.a) target=100;
+            if(gamepad1.x) target=800;
+            if(gamepad1.b) target=1000;
+            if(gamepad1.y) target=1650;
             this.controller1.setPID(P, I, D);
             this.controller2.setPID(P, I, D);
 
@@ -39,7 +43,10 @@ public class TestClimbPID extends LinearOpMode {
                 climb1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 climb2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
-
+            telemetry.addData("pozitie reala1: ", climb1.getCurrentPosition());
+            telemetry.addData("pozitie reala2: ", climb2.getCurrentPosition());
+            telemetry.addData("target", target);
+            telemetry.update();
 
         }
     }

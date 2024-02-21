@@ -58,19 +58,21 @@ public class RobotHardware {
     public static int PivotMIN=0;
     public static int PivotINIT=500;//? de testat
 
-    public static int ExtentionMAX=700;
+    public static int ExtentionMAX=900;
+    public static int ExtentionINT=600;
     public static int ExtentionMID=0;
     public static int ExtentionMIN=25;
 
-    public static double ServoControlMAX=0.62; //0.55
-    public static double ServoControlMID=0.39; //0.2
-    public static double ServoControlMIN=0.065; //0.315
+    public static double ServoControlMAX=0.53; //0.55, 0.58
+    public static double ServoControlMID=0.35; //0.2
+    public static double ServoControlMIN=0.02; //0.315
 
     public static double AvionParcat=1;
     public static double AvionDecolare=0.75;
 
     public static double ClimbJos=0;
-    public static double ClimbSus=0;
+    public static double ClimbAgatare=1000;
+    public static double ClimbSus=1650;
     public enum State {
         TRAJECTORY_1,
         TRAJECTORY_2,
@@ -108,9 +110,7 @@ public class RobotHardware {
 
 
         ExtentionMotor= hardwareMap.get(DcMotorEx.class, "ExtensionMotor");
-        ExtentionMotor.setPower(0.75);
-        ExtentionMotor.setTargetPosition(0);
-        ExtentionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ExtentionMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         ClimbLeft= hardwareMap.get(DcMotorEx.class, "ClimbLeft");
         ClimbLeft.setDirection(DcMotorSimple.Direction.REVERSE);

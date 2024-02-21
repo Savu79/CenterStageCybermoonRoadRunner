@@ -16,7 +16,7 @@ public class ExtentionSubsystem extends SubsystemBase {
     private PIDController controller;
 
     private int target=0;
-    public static double P = 0.003;
+    public static double P = 0.02;
     public static double I = 0.0;
     public static double D = 0.00051;
 
@@ -29,7 +29,7 @@ public class ExtentionSubsystem extends SubsystemBase {
     public void update(){
         this.controller.setPID(P, I, D);
         int error=target-getExtentionPosition();
-        EM.setPower(Range.clip(controller.calculate(0, error), -1, 1));
+        EM.setPower(Range.clip(controller.calculate(0, error), -0.5, 0.5));
     }
 
     public int getExtentionPosition(){

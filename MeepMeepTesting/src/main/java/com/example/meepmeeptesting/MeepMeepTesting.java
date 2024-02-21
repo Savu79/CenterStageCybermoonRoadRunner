@@ -22,6 +22,7 @@ public class MeepMeepTesting {
         AutoRed1PRSPlINE,
         AutoRedNear2PR,
         TEST,
+
     }
     static cas currentState=cas.AutoRedNear2PR;//TODO shimba asta in functie de ce caz vrei
     public static void main(String[] args) {
@@ -86,7 +87,7 @@ public class MeepMeepTesting {
                         .addEntity(myBot1C)
                         .start();
                 break;
-            case  AutoBlue2PL:
+            case AutoBlue2PL:
                 RoadRunnerBotEntity myBot2L = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                         .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
@@ -155,7 +156,7 @@ public class MeepMeepTesting {
                                         .waitSeconds(1)
                                         .strafeLeft(20)
                                         .lineTo(new Vector2d(-52, -9))
-                                        .lineToLinearHeading(new Pose2d(25, -9,Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(25, -9, Math.toRadians(180)))
                                         .lineTo(new Vector2d(47, -34))
                                         .waitSeconds(1)
                                         .strafeRight(24)
@@ -190,10 +191,30 @@ public class MeepMeepTesting {
             case AutoRedNear2PR:
                 RoadRunnerBotEntity AutoRedNear2PR = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                                        .splineToSplineHeading(new Pose2d(33,34,Math.toRadians(180)),Math.toRadians(270))
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(AutoRedNear2PR)
+                        .start();
+                break;
+        }
+
+
+    }
+}
+
+/*case AutoRedNear2PR:
+                RoadRunnerBotEntity AutoRedNear2PR = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                         .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(10, -61, Math.toRadians(90)))
-                                        .addDisplacementMarker(() ->{
+                                        .addDisplacementMarker(() -> {
 //                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 //                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                                         })
@@ -201,17 +222,17 @@ public class MeepMeepTesting {
                                         .lineTo(new Vector2d(10, -32))
                                         .turn(Math.toRadians(-90))
                                         .back(3)
-                                        .addDisplacementMarker(() ->{
+                                        .addDisplacementMarker(() -> {
 //                                            robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
 //                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
                                         })
                                         .waitSeconds(1)
                                         .forward(3)
-                                        .addDisplacementMarker(() ->{
+                                        .addDisplacementMarker(() -> {
 //                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                                         })
                                         .strafeLeft(23)
-                                        .addDisplacementMarker(() ->{
+                                        .addDisplacementMarker(() -> {
 //                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                                         })
                                         .lineToLinearHeading(new Pose2d(-70, -9, Math.toRadians(180)))
@@ -222,9 +243,7 @@ public class MeepMeepTesting {
                         .addEntity(AutoRedNear2PR)
                         .start();
                 break;
-        }
-    }
-}
+ */
 
 /*
 L

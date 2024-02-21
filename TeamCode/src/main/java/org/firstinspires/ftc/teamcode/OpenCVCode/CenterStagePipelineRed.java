@@ -57,8 +57,8 @@ public class CenterStagePipelineRed extends OpenCvPipeline
     /*
      * The core values which define the location and size of the sample regions
      */
-    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(280,70);
-    static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(110,90);
+    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(150,220);
+    static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(88,45);
     static final int REGION_WIDTH = 20;
     static final int REGION_HEIGHT = 20;
 
@@ -229,7 +229,7 @@ public class CenterStagePipelineRed extends OpenCvPipeline
          */
         if(max>150 && max==avg1) // Was it from region 1?
         {
-            position = CenterStagePosition.LEFT; // Record our analysis
+            position = CenterStagePosition.RIGHT; // Record our analysis
 
             /*
              * Draw a solid rectangle on top of the chosen region.
@@ -258,7 +258,7 @@ public class CenterStagePipelineRed extends OpenCvPipeline
                     -1); // Negative thickness means solid fill
         }
         else {
-            position = CenterStagePosition.RIGHT;
+            position = CenterStagePosition.LEFT;
 
             //Imgproc.rectangle(
             //        input, new Point(0,0), new Point (20, 20), RED, -1

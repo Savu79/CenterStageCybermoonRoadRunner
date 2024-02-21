@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
+import org.firstinspires.ftc.teamcode.Subsystems.ClimbSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.ExtentionSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.PivotingMotorSubsystem;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -24,6 +25,7 @@ public class Tele0pPIDNEW extends LinearOpMode {
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
+    private ClimbSubsystem climb;
     int extTarget=0;
     int pivTarget=RobotHardware.PivotMIN;
     boolean isClosed=false;
@@ -32,17 +34,20 @@ public class Tele0pPIDNEW extends LinearOpMode {
 
         robot.init(hardwareMap,telemetry);
         drive = new SampleMecanumDrive(hardwareMap);
-        //extMotor= new ExtentionSubsystem(robot);
+        extMotor= new ExtentionSubsystem(robot);
         pivMotor = new PivotingMotorSubsystem(robot);
+        climb = new ClimbSubsystem(robot);
 
         pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
-        //extMotor.setExtentionTarget(0);
+        extMotor.setExtentionTarget(0);
         //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
 
         waitForStart();
 
         while (opModeIsActive()) {
             pivMotor.update();
+            extMotor.update();
+            climb.update();
             //* MUTARE SERVOCONTROL LA POZITIE MAXIMA DUPA PivotMID
             if(pivMotor.getPivotingMotorPosition()> 200)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
@@ -58,10 +63,10 @@ public class Tele0pPIDNEW extends LinearOpMode {
                 extTarget+=(int)(gamepad2.left_stick_y*40);
                 extTarget= Range.clip(extTarget, RobotHardware.ExtentionMIN, RobotHardware.ExtentionMAX);
             }
-            if(gamepad2.a) extTarget= RobotHardware.ExtentionMIN;
-            if(gamepad2.b) extTarget= RobotHardware.ExtentionMAX;
+            if(gamepad2.right_bumper) extTarget= RobotHardware.ExtentionMIN;
+            if(gamepad2.left_bumper) extTarget= RobotHardware.ExtentionMAX;
+            extMotor.setExtentionTarget(extTarget);
 
-            robot.ExtentionMotor.setTargetPosition(extTarget);
 
             //*MUTARE PIVOTING
             if(gamepad2.right_stick_y!=0) {
@@ -74,17 +79,22 @@ public class Tele0pPIDNEW extends LinearOpMode {
             {
                 pivTarget=RobotHardware.PivotMAX;
                 extTarget=RobotHardware.ExtentionMIN;
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
             }
             if(gamepad2.dpad_right)
             {
                 pivTarget=RobotHardware.PivotMIN;
                 extTarget=RobotHardware.ExtentionMIN;
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
             }
-            if(gamepad2.dpad_down)
+            if(gamepad2.dpad_down && pivMotor.getPivotingMotorPosition() <= 150)
             {
                 pivTarget=RobotHardware.PivotMIN;
-                extTarget=RobotHardware.ExtentionMAX;
-
+                extTarget=RobotHardware.ExtentionINT;
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
             }
 
             //*MUTARE POZTII MICROCSERVO
@@ -112,6 +122,21 @@ public class Tele0pPIDNEW extends LinearOpMode {
             {
                 robot.ServoAvion.setPosition(RobotHardware.AvionParcat);
             }
+
+            //*CLIMB
+            if(gamepad2.y)
+            {
+                climb.setExtentionTarget(1650);
+            }
+            if(gamepad2.a)
+            {
+                climb.setExtentionTarget(0);
+            }
+            if(gamepad2.b)
+            {
+                climb.setExtentionTarget(800);
+            }
+
             //*DRIVE
             drive.setWeightedDrivePower(
                     new Pose2d(
