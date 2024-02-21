@@ -35,6 +35,9 @@ public class ExtentionSubsystem extends SubsystemBase {
     public int getExtentionPosition(){
         return EM.getCurrentPosition();
     }
+    public double getPower(){
+        return EM.getPower();
+    }
     public void setExtentionPower(double power){
         EM.setPower(power);
     }

@@ -7,8 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp(group ="test")
 public class TestBratExtindere extends LinearOpMode {
 
-
-
     DcMotor extindatoarea;
     //Gamepad gamepad1=new Gamepad();
     @Override

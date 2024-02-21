@@ -29,15 +29,16 @@ public class TestBratExtinderePID extends LinearOpMode {
 
         while(opModeIsActive()){
 
-            if(gamepad1.a) target=500;
-            if(gamepad1.b) target=900;
-            if(gamepad1.x) target=0;
+            if(gamepad1.b) target=750;
+            if(gamepad1.y) target=900;
+            if(gamepad1.a) target=0;
 
             extMotor.setExtentionTarget(target);
             extMotor.update();
 
             telemetry.addData("pozitie curenta: ", extMotor.getExtentionPosition());
             telemetry.addData("target: ", target);
+            telemetry.addData("Power", extMotor.getPower());
             telemetry.update();
 
         }
