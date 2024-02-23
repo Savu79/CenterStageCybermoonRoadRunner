@@ -166,6 +166,7 @@ public class AutoRedFar1PTest extends LinearOpMode {
         TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(-36, -61, Math.toRadians(270)))
                 .lineTo(new Vector2d(-36, -34))
                 .turn(Math.toRadians(-90))
+
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })

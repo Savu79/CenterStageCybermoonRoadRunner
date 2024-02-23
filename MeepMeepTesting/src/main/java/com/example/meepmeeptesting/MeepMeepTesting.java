@@ -27,7 +27,7 @@ public class MeepMeepTesting {
         AutoRedNear2PR,
         TEST,
     }
-    static cas currentState=cas.AutoBlueFar1PL;//TODO shimba asta in functie de ce caz vrei
+    static cas currentState=cas.AutoRedFar1PR;//TODO shimba asta in functie de ce caz vrei
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -297,31 +297,36 @@ public class MeepMeepTesting {
                         .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
                                         .addDisplacementMarker(() ->{
-//                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                                         })
-                                        .lineToLinearHeading(new Pose2d(-36, 12, Math.toRadians(180)))
-                                        .turn(Math.toRadians(-90))
+                                        .strafeRight(3)
+                                        .lineToLinearHeading(new Pose2d(-36, 12, Math.toRadians(360)))
+                                        .turn(Math.toRadians(90))
                                         .waitSeconds(1)
                                         .addDisplacementMarker(() ->{
-//                                            robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                                            //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                                         })
                                         .lineTo(new Vector2d(25, 12))
                                         .addDisplacementMarker(() ->{
-//                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
-//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                                         })
-                                        .lineToLinearHeading(new Pose2d(43, 39, Math.toRadians(180)))
+                                        .lineToLinearHeading(new Pose2d(47, 38, Math.toRadians(180)))
                                         .addDisplacementMarker(() ->{
-//                                            robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
-//                                            robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
-//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
-//                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .back(0.5)
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                                         })
                                         .waitSeconds(1)
-                                        .strafeLeft(21)
-                                        .lineTo(new Vector2d(56, 11))
+                                        .strafeLeft(23)
+                                        .lineTo(new Vector2d(56, 13))
                                         .build());
                 meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                         .setDarkMode(true)

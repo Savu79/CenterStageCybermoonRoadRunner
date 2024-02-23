@@ -94,6 +94,7 @@ public class AutoRedNear1PTest extends LinearOpMode {
                 .waitSeconds(1)
                 .lineTo(new Vector2d(13, -32))
                 .turn(Math.toRadians(90))
+                .forward(1)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
@@ -103,7 +104,7 @@ public class AutoRedNear1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(43, -28, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(44, -27, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
@@ -116,7 +117,8 @@ public class AutoRedNear1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .waitSeconds(0.5)
-                .strafeRight(17)
+                .forward(1)
+                .strafeRight(14)
                 .lineTo(new Vector2d(52, -13))
                 .build();
 
@@ -136,7 +138,7 @@ public class AutoRedNear1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(43, -37, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(44, -37, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
@@ -170,7 +172,7 @@ public class AutoRedNear1PTest extends LinearOpMode {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
                 .waitSeconds(0.5)
-                .lineToLinearHeading(new Pose2d(43, -42, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(44, -42, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
