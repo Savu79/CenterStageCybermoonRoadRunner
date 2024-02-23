@@ -95,6 +95,8 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                 //.turn(Math.toRadians(90))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+
                 })
                 .waitSeconds(0.5)
                 .addDisplacementMarker(() ->{
@@ -129,6 +131,8 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                 .waitSeconds(0.5)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+
                 })
                 .waitSeconds(0.5)
                 .addDisplacementMarker(() ->{
@@ -162,6 +166,8 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                 .turn(Math.toRadians(-90))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+
                 })
                 .waitSeconds(0.5)
                 .addDisplacementMarker(() ->{

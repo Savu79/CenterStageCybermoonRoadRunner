@@ -98,12 +98,17 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .strafeRight(25)
-                .lineTo(new Vector2d(25, 9))
+                .lineTo(new Vector2d(25, 12))
                 .addDisplacementMarker(() ->{
-                   robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(43, 44, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(43, 42, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                })
+                .waitSeconds(0.5)
+                .back(0.5)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
@@ -111,21 +116,20 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .waitSeconds(1)
-                .strafeLeft(25)
+                .strafeLeft(29)
                 .lineTo(new Vector2d(56, 13))
                 .build();
 
         TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                 })
                 .lineToLinearHeading(new Pose2d(-36, 12, Math.toRadians(180)))
                 .turn(Math.toRadians(-90))
                 .waitSeconds(1)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .lineTo(new Vector2d(25, 12))
                 .addDisplacementMarker(() ->{
@@ -133,6 +137,11 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
                 .lineToLinearHeading(new Pose2d(43, 39, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                })
+                .waitSeconds(0.5)
+                .back(0.5)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
@@ -149,11 +158,10 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                 .turn(Math.toRadians(-90))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                 })
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                    pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .waitSeconds(1)
                 .strafeLeft(22)
@@ -163,6 +171,11 @@ public class AutoBlueFar1PTest extends LinearOpMode {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
                 .lineToLinearHeading(new Pose2d(43, 32, Math.toRadians(180)))
+                .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                })
+                .waitSeconds(0.5)
+                .back(0.5)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
