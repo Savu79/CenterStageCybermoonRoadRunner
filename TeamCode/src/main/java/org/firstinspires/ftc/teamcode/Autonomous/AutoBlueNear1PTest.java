@@ -91,31 +91,34 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
                 .waitSeconds(0.5)
-                .splineToSplineHeading(new Pose2d(34,34,Math.toRadians(180)),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(32,34,Math.toRadians(180)),Math.toRadians(270))
                 //.turn(Math.toRadians(90))
-                .waitSeconds(0.5)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                })
+                .waitSeconds(0.5)
+                .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
                 .waitSeconds(0.5)
                 //.strafeRight(23)
-                .lineToLinearHeading(new Pose2d(44, 44, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(43, 44, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
                 .waitSeconds(0.5)
                 .back(0.5)
                 .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
-                .waitSeconds(0.5)
-                .forward(4)
+                .forward(2)
+                .waitSeconds(1)
                 .strafeLeft(31)
-                .lineTo(new Vector2d(55, 13))
-                .waitSeconds(0.5)
+                .lineTo(new Vector2d(56, 13))
                 .build();
 
         TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
@@ -123,7 +126,7 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
                 .lineTo(new Vector2d(14, 36))
-                .waitSeconds(1)
+                .waitSeconds(0.5)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                 })
@@ -139,14 +142,15 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                 .waitSeconds(0.5)
                 .back(0.5)
                 .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
-                .waitSeconds(0.5)
-                .forward(4)
-                .strafeLeft(25)
-                .lineTo(new Vector2d(52, 13))
+                .forward(2)
                 .waitSeconds(1)
+                .strafeLeft(25)
+                .lineTo(new Vector2d(56, 13))
                 .build();
 
         TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
@@ -171,14 +175,15 @@ public class AutoBlueNear1PTest extends LinearOpMode {
                 .waitSeconds(0.5)
                 .back(0.5)
                 .addDisplacementMarker(() ->{
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
-                .waitSeconds(0.5)
-                .forward(4)
-                .strafeLeft(19)
-                .lineTo(new Vector2d(52, 13))
+                .forward(2)
                 .waitSeconds(1)
+                .strafeLeft(19)
+                .lineTo(new Vector2d(56, 13))
                 .build();
 
         while(opModeIsActive()){

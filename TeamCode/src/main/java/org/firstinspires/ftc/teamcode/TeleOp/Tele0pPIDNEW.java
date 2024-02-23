@@ -81,6 +81,7 @@ public class Tele0pPIDNEW extends LinearOpMode {
                 extTarget=RobotHardware.ExtentionMIN;
                 robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
                 robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                isClosed=true;
             }
             if(gamepad2.dpad_right)
             {
@@ -88,14 +89,29 @@ public class Tele0pPIDNEW extends LinearOpMode {
                 extTarget=RobotHardware.ExtentionMIN;
                 robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
                 robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                isClosed=true;
             }
             if(gamepad2.dpad_down && pivMotor.getPivotingMotorPosition() <= 150)
             {
                 pivTarget=RobotHardware.PivotMIN;
                 extTarget=RobotHardware.ExtentionINT;
-                robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
-                robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                isClosed=false;
             }
+
+            //*MICRO SERVO PE 2 BUTOANE
+            if(gamepad1.left_bumper)
+            {
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                isClosed=false;
+            }
+            if(gamepad1.right_bumper)
+            {
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                isClosed=false;
+            }
+
 
             //*MUTARE POZTII MICROCSERVO
             if(gamepad1.a)
@@ -140,9 +156,9 @@ public class Tele0pPIDNEW extends LinearOpMode {
             //*DRIVE
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.right_stick_x,
-                            -gamepad1.left_stick_x));
+                            Math.pow(-gamepad1.left_stick_y, 3),
+                            Math.pow(-gamepad1.right_stick_x, 3),
+                            Math.pow(-gamepad1.left_stick_x, 3)));
 
             drive.updatePoseEstimate();
 

@@ -13,7 +13,11 @@ public class MeepMeepTesting {
         AutoBlue1PR,
         AutoBlue1PC,
         AutoBlue2PL,
+
+        AutoBlueFar1PC,
+        AutoBlueFar1PR,
         AutoRed1PL,
+        AutoRed1PR,
 
         AutoRedFar1PL,
         AutoRedFar1PC ,
@@ -24,7 +28,7 @@ public class MeepMeepTesting {
         TEST,
 
     }
-    static cas currentState=cas.AutoRedNear2PR;//TODO shimba asta in functie de ce caz vrei
+    static cas currentState=cas.AutoRed1PR;//TODO shimba asta in functie de ce caz vrei
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
 
@@ -49,6 +53,7 @@ public class MeepMeepTesting {
                         .addEntity(myBot1L)
                         .start();
                 break;
+
             case AutoBlue1PR:
                 RoadRunnerBotEntity myBot1R = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -69,6 +74,7 @@ public class MeepMeepTesting {
                         .addEntity(myBot1R)
                         .start();
                 break;
+
             case AutoBlue1PC:
                 RoadRunnerBotEntity myBot1C = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -87,6 +93,94 @@ public class MeepMeepTesting {
                         .addEntity(myBot1C)
                         .start();
                 break;
+
+            case AutoRed1PL:
+                RoadRunnerBotEntity AutoRed1PL = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(10, 61, Math.toRadians(270)))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                                        })
+                                        .waitSeconds(1)
+                                        .lineTo(new Vector2d(9, -32))
+                                        .turn(Math.toRadians(-90))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .addDisplacementMarker(() ->{
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                                        })
+                                        .lineToLinearHeading(new Pose2d(43, -32, Math.toRadians(180)))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .back(0.5)
+                                        .addDisplacementMarker(() ->{
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .forward(2)
+                                        .strafeRight(19)
+                                        .lineTo(new Vector2d(52, -13))
+                                        .waitSeconds(1)
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(AutoRed1PL)
+                        .start();
+                break;
+
+            case AutoRed1PR:
+                RoadRunnerBotEntity AutoRed1PR = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(10, -61, Math.toRadians(90)))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .splineToLinearHeading(new Pose2d(32,-34,Math.toRadians(180)),Math.toRadians(90))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .addDisplacementMarker(() ->{
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                                        })
+                                        .waitSeconds(0.5)
+                                        //.strafeRight(23)
+                                        .lineToLinearHeading(new Pose2d(43, -44, Math.toRadians(180)))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .back(0.5)
+                                        .addDisplacementMarker(() ->{
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .forward(2)
+                                        .strafeRight(31)
+                                        .lineTo(new Vector2d(55, -13))
+                                        .waitSeconds(0.5)
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(AutoRed1PR)
+                        .start();
+                break;
+
             case AutoBlue2PL:
                 RoadRunnerBotEntity myBot2L = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -191,38 +285,119 @@ public class MeepMeepTesting {
             case AutoRedNear2PR:
                 RoadRunnerBotEntity AutoRedNear2PR = new DefaultBotBuilder(meepMeep)
                         // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(0), 15)
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                         .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
-                                .lineTo(new Vector2d(-40, 37))
-                                .addDisplacementMarker(() ->{
-                                    //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-                                })
-                                .turn(Math.toRadians(90))
-                                .addDisplacementMarker(() ->{
-                                    //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                                    //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
-                                })
-                                .strafeRight(25)
-                                .lineTo(new Vector2d(25, 9))
-                                .addDisplacementMarker(() ->{
-                                    //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
-                                    //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
-                                })
-                                .lineToLinearHeading(new Pose2d(43, 38, Math.toRadians(180)))
-                                .addDisplacementMarker(() ->{
-                                    //robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
-                                    //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
-                                })
-                                .waitSeconds(1)
-                                .forward(4)
-                                .strafeLeft(25)
-                                .lineTo(new Vector2d(52, 13))
-                                .build());
+                                        .lineTo(new Vector2d(-32, 32))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                                        })
+                                        .turn(Math.toRadians(90))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                                        })
+                                        .strafeRight(23)
+                                        .lineTo(new Vector2d(25, 9))
+                                        .addDisplacementMarker(() ->{
+                                           // robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                                           // pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                                        })
+                                        .lineToLinearHeading(new Pose2d(43, 44, Math.toRadians(180)))
+                                        .addDisplacementMarker(() ->{
+                                           // robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                                           // pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                                        })
+                                        .waitSeconds(0.5)
+                                        .forward(4)
+                                        .strafeLeft(31)
+                                        .lineTo(new Vector2d(56, 13))
+                                        .build());
                 meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                         .setDarkMode(true)
                         .setBackgroundAlpha(0.95f)
                         .addEntity(AutoRedNear2PR)
+                        .start();
+                break;
+
+            case AutoBlueFar1PC:
+                RoadRunnerBotEntity AutoBlueFar1PC = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
+                                        .addDisplacementMarker(() ->{
+//                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                        })
+                                        .lineToLinearHeading(new Pose2d(-36, 12, Math.toRadians(180)))
+                                        .turn(Math.toRadians(-90))
+                                        .waitSeconds(1)
+                                        .addDisplacementMarker(() ->{
+//                                            robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                                        })
+                                        .lineTo(new Vector2d(25, 12))
+                                        .addDisplacementMarker(() ->{
+//                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                                        })
+                                        .lineToLinearHeading(new Pose2d(43, 39, Math.toRadians(180)))
+                                        .addDisplacementMarker(() ->{
+//                                            robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+//                                            robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
+//                                            pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+//                                            robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                                        })
+                                        .waitSeconds(1)
+                                        .strafeLeft(21)
+                                        .lineTo(new Vector2d(56, 11))
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(AutoBlueFar1PC)
+                        .start();
+                break;
+
+            case AutoBlueFar1PR:
+                RoadRunnerBotEntity AutoBlueFar1PR = new DefaultBotBuilder(meepMeep)
+                        // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                        .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                        .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-36, 61, Math.toRadians(270)))
+                                        .lineTo(new Vector2d(-34, 34))
+                                        .turn(Math.toRadians(-90))
+                                        .addDisplacementMarker(() ->{
+                                           // robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
+                                           // pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                        })
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMID);
+                                        })
+                                        .waitSeconds(1)
+                                        .strafeLeft(22)
+                                        .lineTo(new Vector2d(25, 12))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
+                                        })
+                                        .lineToLinearHeading(new Pose2d(43, 32, Math.toRadians(180)))
+                                        .addDisplacementMarker(() ->{
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                                            //robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
+                                            //pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
+                                            //robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                                        })
+                                        .waitSeconds(1)
+                                        .strafeLeft(19)
+                                        .lineTo(new Vector2d(56, 13))
+                                        .build());
+                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+                        .setDarkMode(true)
+                        .setBackgroundAlpha(0.95f)
+                        .addEntity(AutoBlueFar1PR)
                         .start();
                 break;
         }
