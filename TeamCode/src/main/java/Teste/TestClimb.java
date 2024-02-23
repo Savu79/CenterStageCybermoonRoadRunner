@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 @Config
-@TeleOp
+@TeleOp(group ="test")
 public class TestClimb extends LinearOpMode {
     private DcMotorEx climb1;
     private DcMotorEx climb2;

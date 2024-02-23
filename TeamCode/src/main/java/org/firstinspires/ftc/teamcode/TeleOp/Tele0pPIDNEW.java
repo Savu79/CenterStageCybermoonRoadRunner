@@ -59,8 +59,8 @@ public class Tele0pPIDNEW extends LinearOpMode {
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
 
             //* MUTARE EXTENTION
-            if(gamepad2.left_stick_y!=0){
-                extTarget+=(int)(gamepad2.left_stick_y*40);
+            if(gamepad2.right_stick_y!=0){
+                extTarget+=(int)(-gamepad2.right_stick_y*40);
                 extTarget= Range.clip(extTarget, RobotHardware.ExtentionMIN, RobotHardware.ExtentionMAX);
             }
             if(gamepad2.right_bumper) extTarget= RobotHardware.ExtentionMIN;
@@ -69,8 +69,8 @@ public class Tele0pPIDNEW extends LinearOpMode {
 
 
             //*MUTARE PIVOTING
-            if(gamepad2.right_stick_y!=0) {
-                pivTarget+=(int)(gamepad2.right_stick_y*30);
+            if(gamepad2.left_stick_y!=0) {
+                pivTarget+=(int)(-gamepad2.left_stick_y*30);
                 pivTarget= Range.clip(pivTarget, RobotHardware.PivotMIN, RobotHardware.PivotMAX);
             }
             pivMotor.setPivotingMotorTarget(pivTarget);
