@@ -21,7 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import Teste.TestSleeveDetectionBlue;
 
-@Autonomous
+@Autonomous(group = "red")
 public class AutoRedFar1PTest extends LinearOpMode {
     //*1P de la un pixel
     private RobotHardware robot= RobotHardware.getInstance();
@@ -69,7 +69,7 @@ public class AutoRedFar1PTest extends LinearOpMode {
         robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
         robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
 
-        drive.setPoseEstimate(new Pose2d(10, 61, Math.toRadians(270)));
+        drive.setPoseEstimate(new Pose2d(-36, -61, Math.toRadians(90)));
 
         //* While pt ca pivMotor sa ajunga la pozitie + detectie
         while(opModeInInit()){
@@ -99,27 +99,31 @@ public class AutoRedFar1PTest extends LinearOpMode {
          */
 
         TrajectorySequence traj1L= drive.trajectorySequenceBuilder(new Pose2d(-36, -61, Math.toRadians(90)))
-                .lineTo(new Vector2d(-34, -34))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
+                .lineTo(new Vector2d(-34, -34))
                 .turn(Math.toRadians(90))
+                .back(1.75)
+                .waitSeconds(0.25)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
-                .strafeRight(22)
-                .lineTo(new Vector2d(25, -12))
+                .forward(4.75)
+                .waitSeconds(0.5)
+                .strafeRight(24)
+                .lineTo(new Vector2d(25, -10))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(43, -30, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(47, -24, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
                 .waitSeconds(0.5)
-                .back(0.5)
+                .back(1)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS1);
@@ -127,26 +131,28 @@ public class AutoRedFar1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .waitSeconds(1)
-                .strafeRight(17)
-                .lineTo(new Vector2d(56, -13))
+                .strafeRight(18)
+                .lineTo(new Vector2d(57, -11))
                 .build();
 
         TrajectorySequence traj1C= drive.trajectorySequenceBuilder(new Pose2d(-36, -61, Math.toRadians(90)))
+                .strafeLeft(8)
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
-                .lineToLinearHeading(new Pose2d(-36, -12, Math.toRadians(180)))
-                .turn(Math.toRadians(90))
-                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(-41, -13, Math.toRadians(270)))
+                .strafeLeft(3)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);                })
-                .lineTo(new Vector2d(25, -12))
+                    robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
+                })
+                .back(5)
+                .lineTo(new Vector2d(25, -9))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(43, -35, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(46.5, -24, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
@@ -158,30 +164,36 @@ public class AutoRedFar1PTest extends LinearOpMode {
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMIN);
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
+                .forward(2)
                 .waitSeconds(1)
                 .strafeRight(26)
-                .lineTo(new Vector2d(56, -13))
+                .lineTo(new Vector2d(56, -10))
                 .build();
 
-        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(-36, -61, Math.toRadians(270)))
-                .lineTo(new Vector2d(-36, -34))
-                .turn(Math.toRadians(-90))
 
+        TrajectorySequence traj1R= drive.trajectorySequenceBuilder(new Pose2d(-36, -61, Math.toRadians(90)))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
                 })
+                .lineTo(new Vector2d(-43, -34))
+                .turn(Math.toRadians(-90))
+                .forward(6)
                 .addDisplacementMarker(() ->{
                     robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                })
+                .waitSeconds(0.5)
+                .back(3.5)
+                .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .waitSeconds(1)
-                .strafeLeft(22)
-                .lineTo(new Vector2d(25, -12))
+                .strafeLeft(24)
+                .lineTo(new Vector2d(25, -10))
                 .addDisplacementMarker(() ->{
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
                     pivMotor.setPivotingMotorTarget(RobotHardware.PivotMAX);
                 })
-                .lineToLinearHeading(new Pose2d(43, -30, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(46.5, -35.5, Math.toRadians(180)))
                 .addDisplacementMarker(() ->{
                     robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
                 })
@@ -194,23 +206,24 @@ public class AutoRedFar1PTest extends LinearOpMode {
                     robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
                 })
                 .waitSeconds(1)
-                .strafeRight(17)
-                .lineTo(new Vector2d(56, -13))
+                .strafeRight(24)
+                .lineTo(new Vector2d(56, -10))
                 .build();
 
 
         while(opModeIsActive()){
             drive.update();
+            pivMotor.update();
             switch (pi) {
                 case LEFT:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1L);
+                        drive.followTrajectorySequenceAsync(traj1L);
                         afost=true;
                     }
                     break;
                 case CENTER:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1C);
+                        drive.followTrajectorySequenceAsync(traj1C);
                         afost=true;
                     }
 
@@ -218,7 +231,7 @@ public class AutoRedFar1PTest extends LinearOpMode {
 
                 case RIGHT:
                     if(!afost) {
-                        drive.followTrajectorySequence(traj1R);
+                        drive.followTrajectorySequenceAsync(traj1R);
                         afost=true;
                     }
 

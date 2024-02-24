@@ -21,7 +21,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import Teste.TestSleeveDetectionBlue;
 
-@Autonomous
+@Autonomous(group = "blue")
 public class AutoBlueNear1PTest extends LinearOpMode {
     //*1P de la un pixel
     private RobotHardware robot= RobotHardware.getInstance();

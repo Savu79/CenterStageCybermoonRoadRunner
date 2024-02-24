@@ -1,15 +1,8 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.arcrobotics.ftclib.command.Robot;
-import com.arcrobotics.ftclib.geometry.Rotation2d;
-import com.arcrobotics.ftclib.geometry.Translation2d;
-import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Hardware.RobotHardware;
@@ -20,14 +13,13 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Config
 @TeleOp(group ="tele0p")
-public class Tele0pPIDNEW extends LinearOpMode {
+public class Tele0pPIDNEWSVU79 extends LinearOpMode {
     private RobotHardware robot= RobotHardware.getInstance();
     private SampleMecanumDrive drive;
     private ExtentionSubsystem extMotor;
     private PivotingMotorSubsystem pivMotor;
     private ClimbSubsystem climb;
     int extTarget=0;
-    double vit=1;
     int pivTarget=RobotHardware.PivotMIN;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,20 +41,14 @@ public class Tele0pPIDNEW extends LinearOpMode {
             extMotor.update();
             climb.update();
             //* MUTARE SERVOCONTROL LA POZITIE MAXIMA DUPA PivotMID
-            if (pivMotor.getPivotingMotorPosition() > 200){
+            if(pivMotor.getPivotingMotorPosition()> 200)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMAX);
-                vit=1;
-            }
 
-            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget>400) {
+            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget>400)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMIN);
-                vit=2;
-            }
 
-            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget<400) {
+            if(pivMotor.getPivotingMotorPosition()< 200 && extTarget<400)
                 robot.AngleControlServo.setPosition(RobotHardware.ServoControlMID);
-                vit=1;
-            }
 
             //* MUTARE EXTENTION
             if(gamepad2.right_stick_y!=0){
@@ -117,13 +103,13 @@ public class Tele0pPIDNEW extends LinearOpMode {
             //*MUTARE POZTII MICROCSERVO
             if(gamepad1.a)
             {
-                    robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
-                    robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoINCHIS1);
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoINCHIS2);
             }
             if(gamepad1.b)
             {
-                    robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
-                    robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
+                robot.MicroServo1.setPosition(RobotHardware.MicroServoDESCHIS1);
+                robot.MicroServo2.setPosition(RobotHardware.MicroServoDESCHIS2);
             }
             //*AVION
             if(gamepad1.dpad_left)
@@ -152,9 +138,9 @@ public class Tele0pPIDNEW extends LinearOpMode {
             //*DRIVE
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            Math.pow(-gamepad1.left_stick_y, 3)/vit,
-                            Math.pow(-gamepad1.right_stick_x, 3)/vit,
-                            Math.pow(-gamepad1.left_stick_x, 3)/vit));
+                            Math.pow(-gamepad1.left_stick_y, 3),
+                            Math.pow(-gamepad1.left_stick_x, 3),
+                            Math.pow(-gamepad1.right_stick_x, 3)));
 
             drive.updatePoseEstimate();
 
